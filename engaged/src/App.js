@@ -5,16 +5,18 @@ import "./App.css";
   
 function App() {
 const [hello, setHello] = useState("");
-useEffect (() => {
-  const callBackendAPI = async () => {
-    const response = await fetch('http://localhost:3001');
-    const data = await response.json();
-    setHello(data)
-    if (!response.ok) {
-      throw new Error("Network response was not OK!");
-    }
-  
+
+const callBackendAPI = async () => {
+  const response = await fetch('http://localhost:3001');
+  const data = await response.json();
+  setHello(data.msg)
+  if (!response.ok) {
+    throw new Error("Network response was not OK!");
   }
+
+}
+useEffect (() => {
+  callBackendAPI();
 }, [])
   
   return (
