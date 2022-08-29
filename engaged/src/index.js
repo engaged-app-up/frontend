@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import './index.css';
-import App from './App';
-import Login from "./Login";
+import App from './Components/App';
+import Login from "./Components/Login";
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
