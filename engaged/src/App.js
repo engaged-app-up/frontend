@@ -2,6 +2,9 @@ import logo from "./logo.svg";
 import React, {useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import "./App.css";
+import Login from "./Login";
+import Header from "./Header.js";
+import { Outlet } from "react-router-dom";
   
 function App() {
 const [hello, setHello] = useState("");
@@ -20,12 +23,10 @@ useEffect (() => {
 }, [])
   
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{!hello ? "Loading..." : hello}</p>
-      </header>
-    </div>
-  );
+    <>
+    <Header />
+    <Login />
+    </>
+  )
 }
 export default App;

@@ -4,7 +4,10 @@ import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import './index.css';
 import App from './App';
+import Login from "./Login";
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 Sentry.init({
   dsn: "https://f827f8a2a6c2465fa4c104fcb0643bd0@o1368148.ingest.sentry.io/6670643",
@@ -16,7 +19,14 @@ Sentry.init({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route path="login" element={<Login />} />
+          
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
