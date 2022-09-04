@@ -3,7 +3,7 @@ import React, {useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/Login";
 import Header from "./Components/Header";
-  
+import { ContextWrapper } from "./Context/GlobalContext/GlobalContext";
 function App() {
 const [hello, setHello] = useState("");
 
@@ -22,12 +22,14 @@ useEffect (() => {
   
   return (
     <>
-    <BrowserRouter>
-    <Header />
-      <Routes>
-        <Route path="/" element={<Login />} />
-      </Routes>
-    </BrowserRouter>
+    <ContextWrapper>
+      <BrowserRouter>
+      <Header />
+        <Routes>
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    </ContextWrapper>
     </>
 
   )

@@ -1,8 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
+import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
+  const globalState = useContext(GlobalContext);
   const auth = getAuth();
+
   console.log(auth);
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden c">
