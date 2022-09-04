@@ -1,10 +1,8 @@
 
 import React, {useState, useEffect } from "react";
-import * as Sentry from "@sentry/react";
-
-import Login from "./Login";
-import Header from "./Header.js";
-import { Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./Components/Login";
+import Header from "./Components/Header";
   
 function App() {
 const [hello, setHello] = useState("");
@@ -19,14 +17,19 @@ const callBackendAPI = async () => {
 
 }
 useEffect (() => {
-  callBackendAPI();
+  // callBackendAPI();
 }, [])
   
   return (
     <>
+    <BrowserRouter>
     <Header />
-    <Login />
+      <Routes>
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
     </>
+
   )
 }
 export default App;

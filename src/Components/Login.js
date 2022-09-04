@@ -1,6 +1,9 @@
 import React from "react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
+  const auth = getAuth();
+  console.log(auth);
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden c">
       <div className="w-full p-6 m-auto bg-blue-400 rounded-md shadow-md lg:max-w-xl ">
@@ -10,7 +13,7 @@ export default function Login() {
         <form className="mt-6">
           <div className="mb-2">
             <label
-              for="email"
+              htmlFor="email"
               className="block text-sm font-semibold text-yellow-400"
             >
               Email
@@ -22,7 +25,7 @@ export default function Login() {
           </div>
           <div className="mb-2">
             <label
-              for="password"
+              htmlFor="password"
               className="block text-sm font-semibold text-yellow-400"
             >
               Password

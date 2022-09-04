@@ -47,10 +47,9 @@ export default function Header() {
   
               <li>
                 <NavLink
-                  className="navLinks"
+                  className="navLinks block py-2 pr-4 pl-3 text-white hover:bg-light-blue md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-yellow-400"
                   to="/login"
                   href="#"
-                  className="block py-2 pr-4 pl-3 text-white hover:bg-light-blue md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-yellow-400    "
                 >
                   Login
                 </NavLink>
