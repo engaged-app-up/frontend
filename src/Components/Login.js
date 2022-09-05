@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-export default function Login() {
+export default function Login(props) {
+
   const [isLogin, setIsLogin] = useState(true);
   const [userInput, setUserInput] = useState({email: '', password: ''}); //initial state for form inputs.
-  console.log(userInput);
-  const globalState = useContext(GlobalContext); //global context
+  const [state, dispatch] = useContext(GlobalContext);
   const auth = getAuth(); //firebase auth obj
 
   const handleInput = (event) => {
@@ -16,6 +16,23 @@ export default function Login() {
   const handleFormState = (event) => {
     setUserInput({email: '', password: ''});
     setIsLogin(!isLogin);
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (isLogin) {
+      //login logic
+    } else {
+      // register
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, userInput.email, userInput.password);
+        const user = userCredential.user;
+        console.log(userCredential, 'user credentials')
+        console.log(user, 'user');
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 
   return (
@@ -96,7 +113,7 @@ export default function Login() {
             </>
           )}
           <div className="mt-6">
-            <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-yellow-400 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+            <button type="submit" onClick={handleSubmit} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-yellow-400 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
               {isLogin ? "Login" : "Signup"}
             </button>
           </div>
