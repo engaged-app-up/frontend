@@ -4,9 +4,10 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 export const GlobalContext = createContext();
 export const ContextWrapper = (props) => {
     const auth = getAuth();
+    console.log(auth);
     const initialState = {
-        user: auth.currentUser || "",
-        token: auth.currentUser.accessToken || "",
+        user: auth.currentUser ? auth.currentUser : '',
+        token: auth.currentUser ? auth.currentUser.accessToken : '',
         loading: false,
     }
     const [state, dispatch] = useReducer(contextReducer, initialState);
