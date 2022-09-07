@@ -1,11 +1,12 @@
 
-import React, {useState, useEffect } from "react";
+import React, {useState, useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/Login";
 import Header from "./Components/Header";
-import { ContextWrapper } from "./Context/GlobalContext/GlobalContext";
+import { ContextWrapper, GlobalContext } from "./Context/GlobalContext/GlobalContext";
 import DashBoard from "./Components/DashBoard";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import { getAuth } from "firebase/auth";
 
 function App() {
 const [hello, setHello] = useState("");
