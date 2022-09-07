@@ -5,12 +5,13 @@ export const GlobalContext = createContext();
 export const ContextWrapper = (props) => {
     const auth = getAuth();
     const initialState = {
-        user: auth.currentUser ? auth.currentUser : '',
-        token: auth.currentUser ? auth.currentUser.accessToken : '',
+        user: "",
+        token: "",
         loading: false,
     }
     const [state, dispatch] = useReducer(contextReducer, initialState);
     useEffect(() => {
+      dispatch({type: 'SET_LOADING'})
         onAuthStateChanged(auth, (user) => {
             if (user) {
               // User is signed in, see docs for a list of available properties
@@ -23,12 +24,10 @@ export const ContextWrapper = (props) => {
                 }
               })
               // ...
-            } else {
-              // User is signed out
-              // ...
-            }
+            } 
+            dispatch({type: 'STOP_LOADING'})
           });
-    }, [])
+    }, [auth.currentUser])
 
     return (<GlobalContext.Provider value={[state, dispatch]}>
         {props.children}
