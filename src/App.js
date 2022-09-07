@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/Login";
 import Header from "./Components/Header";
 import { ContextWrapper } from "./Context/GlobalContext/GlobalContext";
+import DashBoard from "./Components/DashBoard";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 function App() {
 const [hello, setHello] = useState("");
@@ -28,6 +30,7 @@ useEffect (() => {
       <Header />
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<ProtectedRoute><DashBoard /></ProtectedRoute>}></Route>
         </Routes>
       </BrowserRouter>
     </ContextWrapper>
