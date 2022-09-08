@@ -7,6 +7,8 @@ import { ContextWrapper, GlobalContext } from "./Context/GlobalContext/GlobalCon
 import DashBoard from "./Components/DashBoard";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { getAuth } from "firebase/auth";
+import Chat from "./Components/Chat";
+
 
 function App() {
 const [hello, setHello] = useState("");
@@ -32,6 +34,7 @@ useEffect (() => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<ProtectedRoute><DashBoard /></ProtectedRoute>}></Route>
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </BrowserRouter>
     </ContextWrapper>
