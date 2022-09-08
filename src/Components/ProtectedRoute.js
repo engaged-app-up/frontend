@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = (props) => {
   const [state, dispatch] = useContext(GlobalContext);
 
-  if (state.loading) return <h1>LOADING..</h1>
-  if (!state.user) return <h1>You must login.</h1>
+  if (!state.user) return <Navigate to="/" />
 
   return (
     <>

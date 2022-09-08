@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
+import { Navigate } from "react-router-dom";
 
 export default function Login(props) {
 
@@ -22,18 +23,28 @@ export default function Login(props) {
     event.preventDefault();
     if (isLogin) {
       //login logic
+      try {
+      await signInWithEmailAndPassword(auth, userInput.email, userInput.password);
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       // register
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, userInput.email, userInput.password);
         const user = userCredential.user;
-        console.log(userCredential, 'user credentials')
-        console.log(user, 'user');
+        //using firebase's updateProfile to update other user fields with form data.
+        await updateProfile(auth.currentUser, {
+          displayName: `${userInput.firstName} ${userInput.lastName}`,
+          photoURL: 'https://miro.medium.com/max/720/1*W35QUSvGpcLuxPo3SRTH4w.png'
+        })
       } catch (err) {
         console.log(err);
       }
     }
   }
+
+  if (state.user) return <Navigate to="/dashboard" />;
 
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden c">

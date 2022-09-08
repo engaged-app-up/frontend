@@ -1,6 +1,27 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
+import { useNavigate } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
 
 export default function Header() {
+  const auth = getAuth();
+  const [state, dispatch] = useContext(GlobalContext);
+  const navigate = useNavigate();
+
+  const handleAuth = async () => {
+    if (state.user) {
+      try {
+        await signOut(auth);
+        await dispatch({type: 'LOGOUT'})
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      navigate('/');
+    }
+  }
+
     return(
       <nav className="bg-blue-600 border-gray-200 px-2 sm:px-4 py-2.5 rounded">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -48,10 +69,13 @@ export default function Header() {
               <li>
                 <NavLink
                   className="navLinks block py-2 pr-4 pl-3 text-white hover:bg-light-blue md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-yellow-400"
-                  to="/login"
+                  to="/"
                   href="#"
+                  onClick={handleAuth}
                 >
-                  Login
+                  {
+                    !state.user ? 'Login' : 'Logout'
+                  }
                 </NavLink>
               </li>
 

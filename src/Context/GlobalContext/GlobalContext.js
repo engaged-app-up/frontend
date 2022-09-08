@@ -27,9 +27,9 @@ export const ContextWrapper = (props) => {
             } 
             dispatch({type: 'STOP_LOADING'})
           });
-    }, [auth.currentUser])
+    }, [])
 
     return (<GlobalContext.Provider value={[state, dispatch]}>
-        {props.children}
+        {state.loading ? '' : props.children}
     </GlobalContext.Provider>)
 }
