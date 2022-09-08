@@ -32,12 +32,15 @@ export default function Login(props) {
       // register
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, userInput.email, userInput.password);
-        const user = userCredential.user;
         //using firebase's updateProfile to update other user fields with form data.
         await updateProfile(auth.currentUser, {
           displayName: `${userInput.firstName} ${userInput.lastName}`,
           photoURL: 'https://miro.medium.com/max/720/1*W35QUSvGpcLuxPo3SRTH4w.png'
         })
+        dispatch({type: 'SET_USER', payload: {
+          user: auth.currentUser,
+          token: auth.currentUser.token
+        }})
       } catch (err) {
         console.log(err);
       }

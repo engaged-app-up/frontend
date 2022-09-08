@@ -10,12 +10,11 @@ export const contextReducer = (state, action) => {
                 ...state,
                 loading: false
             }
-        case "LOGIN":
+        case "SET_USER":
             return {
                 ...state,
                 user: action.payload.user,
                 token: action.payload.token,
-                loading: false
             }
         case 'LOGOUT':
             return {
