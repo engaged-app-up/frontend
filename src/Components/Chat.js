@@ -8,21 +8,19 @@ export default function Chat() {
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState("");
 
-  const sendMessage = () => {
+  const sendMessage = (event) => {
+    event.preventDefault();
     socket.emit("send_message", { message });
   };
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      alert(data.message)
       setMessageReceived(data.message);
-      
     });
   }, [socket]);
   return (
     <form>
       <label>
-         
         <input
           type="textarea"
           placeholder="Message..."
@@ -31,7 +29,9 @@ export default function Chat() {
           }}
         />
       </label>
-      <button  onClick={sendMessage}>Send Message</button>
+      <button type="submit" onClick={sendMessage}>
+        Send Message
+      </button>
       <h1>Message:</h1>
       <h2>{messageReceived}</h2>
     </form>
