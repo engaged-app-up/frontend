@@ -22,6 +22,7 @@ export default function Login(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    dispatch({type: 'SET_LOADING'});
     if (isLogin) {
       //login logic
       try {
@@ -49,6 +50,7 @@ export default function Login(props) {
         console.log(err);
       }
     }
+    dispatch({type: 'STOP_LOADING'});
   }
 
   if (state.user) return <Navigate to="/dashboard" />;
