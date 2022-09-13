@@ -15,6 +15,7 @@ export default function Login(props) {
   }
 
   const handleFormState = (event) => {
+    event.preventDefault();
     setUserInput({email: '', password: ''});
     setIsLogin(!isLogin);
   }
@@ -29,18 +30,21 @@ export default function Login(props) {
         console.log(err);
       }
     } else {
-      // register
+      // register user
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, userInput.email, userInput.password);
-        //using firebase's updateProfile to update other user fields with form data.
-        await updateProfile(auth.currentUser, {
-          displayName: `${userInput.firstName} ${userInput.lastName}`,
-          photoURL: 'https://miro.medium.com/max/720/1*W35QUSvGpcLuxPo3SRTH4w.png'
+        const user = {email: userInput.email, password: userInput.password, displayName: `${userInput.firstName} ${userInput.lastName}`};
+        const response = await fetch('http://localhost:3001/api/users/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(user)
         })
-        dispatch({type: 'SET_USER', payload: {
-          user: auth.currentUser,
-          token: auth.currentUser.token
-        }})
+        // if registration was successful, signin with firebase (fireBase onAuthStateChange in GlobalContext will update the user in the global state :D  )
+        if (response.ok) {
+          await signInWithEmailAndPassword(auth, user.email, user.password);
+        }
+
       } catch (err) {
         console.log(err);
       }
