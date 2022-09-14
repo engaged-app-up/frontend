@@ -8,6 +8,7 @@ import DashBoard from "./Components/DashBoard";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { getAuth } from "firebase/auth";
 import Chat from "./Components/Chat";
+import Channel from "./Components/Channel";
 
 
 function App() {
@@ -34,7 +35,7 @@ useEffect (() => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<ProtectedRoute><DashBoard /></ProtectedRoute>}></Route>
-          <Route path="/chat" element={<Chat />} />
+          <Route path="/chat" element={<Channel />} />
         </Routes>
       </BrowserRouter>
     </ContextWrapper>
