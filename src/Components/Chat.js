@@ -29,7 +29,7 @@ export default function Chat({socket, username, room}) {
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      setMessageReceived(data.message);
+    setMessageList((list) => [...list, data]);
     });
   }, [socket]);
   return (
