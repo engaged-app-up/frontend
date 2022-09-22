@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 export default function Chat({ socket, username, room }) {
   // Messages States
   const [currentMessage, setCurrentMessage] = useState("");
-  const [messageReceived, setMessageReceived] = useState("");
   const [messageList, setMessageList] = useState([]);
 
   const sendMessage = async () => {
@@ -38,18 +37,13 @@ export default function Chat({ socket, username, room }) {
             <div rounded-full bg-gray-300>
               {messageList.map((messageContent) => {
                 return (
-                  <div
-                    className="message "
-                    id={username === messageContent.author ? "you" : "other"}
-                  >
-                    <div>
-                      <div className="message-content">
-                        <p>{messageContent.message}</p>
-                      </div>
-
-                      <p id="time">{messageContent.time}</p>
-                      <p id="author">{messageContent.author}</p>
+                  <div>
+                    <div className="message-content">
+                      <p>{messageContent.message}</p>
                     </div>
+
+                    <p id="time">{messageContent.time}</p>
+                    <p id="author">{messageContent.author}</p>
                   </div>
                 );
               })}
