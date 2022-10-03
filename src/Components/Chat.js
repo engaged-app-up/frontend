@@ -29,12 +29,12 @@ export default function Chat({ socket, username, room }) {
     });
   }, [socket]);
   return (
-    <body class="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800 p-10">
-      <div class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
-        <div class="flex flex-col flex-grow h-0 p-4 overflow-auto">
-          <div class="flex w-full mt-2 space-x-3 max-w-xs">
-            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-            <div rounded-full bg-gray-300>
+    <div className="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800 p-10">
+      <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
+        <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
+          <div className="flex w-full mt-2 space-x-3 max-w-xs">
+            <div className="flex-shrink-0 h-10 w-10  bg-gray-300"></div>
+            <div>
               {messageList.map((messageContent) => {
                 return (
                   <div>
@@ -50,10 +50,10 @@ export default function Chat({ socket, username, room }) {
             </div>
           </div>
 
-          <div class="flex w-full mt-2 space-x-3 max-w-xs"></div>
+          <div className="flex w-full mt-2 space-x-3 max-w-xs"></div>
         </div>
 
-        <div class="bg-gray-300 p-4">
+        <div className="bg-gray-300 p-4">
           <input
             type="text"
             value={currentMessage}
@@ -65,11 +65,11 @@ export default function Chat({ socket, username, room }) {
               event.key === "Enter" && sendMessage();
             }}
           />
-          <button class="pl-5" onClick={sendMessage}>
+          <button className="pl-5" onClick={sendMessage}>
             Send
           </button>
         </div>
       </div>
-    </body>
+    </div>
   );
 }

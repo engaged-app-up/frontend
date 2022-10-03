@@ -5,11 +5,10 @@ import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 const socket = io("http://localhost:3001");
 
 export default function Channel() {
-  
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
   const [state, dispatch] = useContext(GlobalContext);
-  const username = state.user.displayName
+  const username = state.user.displayName;
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
@@ -18,14 +17,13 @@ export default function Channel() {
     }
   };
 
-
-
   return (
     <div className="App">
       {!showChat ? (
         <div>
           <h3>Join A Chat</h3>
           <h4>Hello {username}</h4>
+
           {/* <input
             type="text"
             placeholder="user...."
