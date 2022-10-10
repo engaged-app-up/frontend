@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/Login";
@@ -9,6 +8,8 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import { getAuth } from "firebase/auth";
 import Chat from "./Components/Chat";
 import Channel from "./Components/Channel";
+
+import './App.css';
 
 
 function App() {

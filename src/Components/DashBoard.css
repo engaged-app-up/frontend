@@ -1,4 +1,8 @@
+.dashboard {
+    /* background-color: ; */
+    min-height: 90vh;
+}
 .dashboard-avatar img {
-    max-width: 100%;
+    max-width: 15em;
     /* border-radius: 50%; */
 }
