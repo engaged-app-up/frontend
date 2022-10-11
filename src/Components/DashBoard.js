@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 
 import Button from "./Button";
+import RoomListItem from "./RoomListItem";
 
 import './DashBoard.css'
 const DashBoard = props => {
@@ -10,8 +11,8 @@ const DashBoard = props => {
   const first = displayName.split(' ')[0];
   // return (<div><h1>{`Hello ${displayName}! UID: ${uid} email: ${email} ${photoURL}`}</h1></div>);
   return (
-    <div className="px-4">
-      <div className="dashboard container mx-auto rounded bg-white mt-2">
+    <div className="">
+      <div className="dashboard container mx-auto rounded px-4">
         <div className="dashboard-header pt-7 text-center">
           <h1 className=" text-2xl md:text-5xl">Hello, {first}</h1>
         </div>
@@ -19,8 +20,15 @@ const DashBoard = props => {
           <img className="mx-auto rounded-full" src={photoURL} alt="user avatar"/>
         </div>
         <div className="dashboard-buttons flex flex-col max-w-xs mx-auto mt-5">
-          <Button label="Create Room" onClick={() => console.log('click')}/>
-          <Button label="Join Room" onClick={() => console.log('click')}/>
+          <Button>Create Room</Button>
+          <Button>Join Room</Button>
+        </div>
+        <div className="dashboard-rooms mt-2 max-w-2xl mx-auto py-4">
+          <h3 className="text-2xl md:text-4xl text-center py-6">Rooms</h3>
+          <ul>
+            <RoomListItem />
+            <RoomListItem />
+          </ul>
         </div>
       </div>
     </div>

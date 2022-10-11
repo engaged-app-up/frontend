@@ -1,11 +1,11 @@
 import React from 'react';
 import './Button.css';
 
-const Button = ({label, onClick, styles}) => {
+const Button = (props) => {
     //todo
     return (
         <>
-            <button className={`rounded${styles ? ` ${styles}` : ''}`} onClick={onClick}>{label}</button>
+            <button className={`rounded button button-${props.size || 'default'}`} onClick={props.onClick}>{props.children}</button>
         </>
     )
 }
