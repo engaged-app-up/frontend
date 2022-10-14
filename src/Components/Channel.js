@@ -36,12 +36,11 @@ export default function Channel() {
         </div>
       ) : (
         <>
-        
-          <div className="flex mt-10 ml-10 ">
-            <div className ="flex">
+          <div className="flex mt-5">
+            <div className="flex">
               <UserList />
             </div>
-            <div className="flex flex-wrap w-9/12">
+            <div className="flex ml-5 w-9/12">
               <Chat socket={socket} username={username} room={room} />{" "}
             </div>
           </div>
