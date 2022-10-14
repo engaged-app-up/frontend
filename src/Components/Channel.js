@@ -12,7 +12,7 @@ export default function Channel() {
   const username = state.user.displayName;
 
   const joinRoom = () => {
-    if (username !== "" && room !== "") {
+    if (room !== "") {
       socket.emit("join_room", room);
       setShowChat(true);
     }
@@ -25,13 +25,6 @@ export default function Channel() {
           <h3>Join A Chat</h3>
           <h4>Hello {username}</h4>
 
-          {/* <input
-            type="text"
-            placeholder="user...."
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          /> */}
           <input
             type="text"
             placeholder="Room ID..."
@@ -41,18 +34,19 @@ export default function Channel() {
           />
           <button onClick={joinRoom}>Join A Room</button>
         </div>
-        
       ) : (
         <>
-        <div className ="flex flex-row w-full ">
-        <div><UserList /></div>
-        <div className="flex justify-between"><Chat socket={socket} username={username} room={room} /> </div>
-        </div>
-    
+        
+          <div className="flex mt-10 ml-10 ">
+            <div className ="flex">
+              <UserList />
+            </div>
+            <div className="flex flex-wrap w-9/12">
+              <Chat socket={socket} username={username} room={room} />{" "}
+            </div>
+          </div>
         </>
       )}
-
-      
     </div>
   );
 }
