@@ -10,7 +10,7 @@ const Modal = props => {
         return (
             <>
                 <Backdrop onClick={props.closeModal}/>
-                <Dialog className="modal" open={props.show} onClose={() => console.log('close')}>
+                <Dialog className={`modal ${props.className}`}open={props.show} onClose={() => console.log('close')}>
                     <Dialog.Panel className="modal-container bg-white px-4 py-4 rounded">
                         {props.children}
                         <Button size="small" className="modal-button">Submit</Button>
