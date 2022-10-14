@@ -1,0 +1,11 @@
+.modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
+
+.modal-button {
+    margin-bottom: 0 !important;
+}
