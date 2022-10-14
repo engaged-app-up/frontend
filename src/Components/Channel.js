@@ -2,6 +2,7 @@ import io from "socket.io-client";
 import { useState, useContext } from "react";
 import Chat from "./Chat";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
+import UserList from "./UserList";
 const socket = io("http://localhost:3001");
 
 export default function Channel() {
@@ -40,9 +41,18 @@ export default function Channel() {
           />
           <button onClick={joinRoom}>Join A Room</button>
         </div>
+        
       ) : (
-        <Chat socket={socket} username={username} room={room} />
+        <>
+        <div className ="flex flex-row w-full ">
+        <div><UserList /></div>
+        <div className="flex justify-between"><Chat socket={socket} username={username} room={room} /> </div>
+        </div>
+    
+        </>
       )}
+
+      
     </div>
   );
 }
