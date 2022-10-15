@@ -4,6 +4,7 @@ import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 import Button from "./Button";
 import RoomListItem from "./RoomListItem";
 import Modal from "./Modal";
+import CreateRoomForm from "./CreateRoomForm";
 
 import './DashBoard.css'
 const DashBoard = props => {
@@ -47,7 +48,9 @@ const DashBoard = props => {
     <>
       <div className="">
       {/* <Modal show={showModal}/> */}
-      <Modal closeModal={closeModal} show={showModal}><p>Hello World</p></Modal>
+      <Modal className="w-11/12 md:w-5/12" closeModal={closeModal} show={showModal}>
+        <CreateRoomForm closeModal={closeModal}/>
+      </Modal>
         <div className="dashboard container mx-auto rounded px-4">
           <div className="dashboard-header pt-7 text-center">
             <h1 className=" text-2xl md:text-5xl">Hello, {first}</h1>
