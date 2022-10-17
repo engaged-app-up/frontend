@@ -14,7 +14,8 @@ const RoomListItem = props => {
             </div>
             </div>
             <div>
-                {props.roomMemberCount} Participants
+                {/* room members plus 1, this is including the room creator/host becuase they are not stored in normal members. should we change this? */}
+                {props.roomMemberCount + 1} Participants
             </div>
             <div>
                 <RiMenuLine />

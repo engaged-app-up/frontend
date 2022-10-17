@@ -14,15 +14,18 @@ const CreateRoomForm = props => {
     }
 
     const onSubmit = async (e) => {
-        const {name, description} = roomForm;
+        const body = {name: roomForm.roomName, description: roomForm.roomDescription};
+        console.log(body);
         e.preventDefault();
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/create`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${state.user.accessToken}`
+                'Authorization': `Bearer ${state.user.accessToken}`,
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({name, description})
+            body: JSON.stringify(body)
         });
+        window.location.reload();
     }
 
     const onInputChange = (e) => {
