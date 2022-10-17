@@ -12,18 +12,18 @@ const DashBoard = props => {
   const { uid, displayName, photoURL, email } = state.user;
   const first = displayName.split(' ')[0];
   const [userRooms, setUserRooms] = useState([]);
-  const [isRoomsLoading, setIsRoomsLoading] = useState(true);
-  console.log(state.user.accessToken);
+  const [isRoomsLoading, setIsRoomsLoading] = useState(true); 
   const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({}); //what we want to display in the modal component
 
   const closeModal = () => {
-    console.log('close modal')
     setShowModal(false);
+    setModalContent({});
   }
 
   const getUsersRooms = async () => {
     let fetchedRooms;
-    const response = await fetch(`http://localhost:3001/api/rooms/user/${uid}/rooms`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/user/${uid}/rooms`, {
       headers: {
         'Authorization': `Bearer ${state.user.accessToken}`
       }
@@ -32,10 +32,9 @@ const DashBoard = props => {
 
     if (response.ok) {
       fetchedRooms = await response.json();
+      setUserRooms(fetchedRooms);
+      setIsRoomsLoading(false);
     }
-
-    setUserRooms(fetchedRooms);
-    setIsRoomsLoading(false);
   }
 
   useEffect(() => {
@@ -43,13 +42,12 @@ const DashBoard = props => {
     setUserRooms(getUsersRooms());
   }, []);
 
-  // return (<div><h1>{`Hello ${displayName}! UID: ${uid} email: ${email} ${photoURL}`}</h1></div>);
   return (
     <>
       <div className="">
-      {/* <Modal show={showModal}/> */}
       <Modal className="w-11/12 md:w-5/12" closeModal={closeModal} show={showModal}>
-        <CreateRoomForm closeModal={closeModal}/>
+        {modalContent.createRoom && <CreateRoomForm closeModal={closeModal}/>}
+        {modalContent.joinRoom && <p>Hello World</p>}
       </Modal>
         <div className="dashboard container mx-auto rounded px-4">
           <div className="dashboard-header pt-7 text-center">
@@ -60,9 +58,13 @@ const DashBoard = props => {
           </div>
           <div className="dashboard-buttons flex flex-col max-w-xs mx-auto mt-5">
             <Button onClick={() => {
+              setModalContent({createRoom: true});
               setShowModal(!showModal);
             }}>Create Room</Button>
-            <Button>Join Room</Button>
+            <Button onClick={() => {
+              setModalContent({joinRoom: true})
+              setShowModal(!showModal);
+            }}>Join Room</Button>
           </div>
           <div className="dashboard-rooms mt-2 max-w-2xl mx-auto py-4">
             <h3 className="text-2xl md:text-4xl text-center py-6">Rooms</h3>

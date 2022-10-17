@@ -15,7 +15,6 @@ const CreateRoomForm = props => {
 
     const onSubmit = async (e) => {
         const body = {name: roomForm.roomName, description: roomForm.roomDescription};
-        console.log(body);
         e.preventDefault();
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/create`, {
             method: 'POST',
