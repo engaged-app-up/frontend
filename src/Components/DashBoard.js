@@ -11,6 +11,8 @@ const DashBoard = props => {
   const [state, dispatch] = useContext(GlobalContext);
   const { uid, displayName, photoURL, email } = state.user;
   const first = displayName.split(' ')[0];
+  
+  // state
   const [userRooms, setUserRooms] = useState([]);
   const [isRoomsLoading, setIsRoomsLoading] = useState(true); 
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +30,6 @@ const DashBoard = props => {
         'Authorization': `Bearer ${state.user.accessToken}`
       }
     });
-    console.log(response);
 
     if (response.ok) {
       fetchedRooms = await response.json();
@@ -69,7 +70,7 @@ const DashBoard = props => {
           <div className="dashboard-rooms mt-2 max-w-2xl mx-auto py-4">
             <h3 className="text-2xl md:text-4xl text-center py-6">Rooms</h3>
             <ul>
-              {isRoomsLoading ? 'LOADING...' : userRooms.length > 0 ? userRooms.map(room => <RoomListItem key={room.id} roomName={room.name} roomDescription={room.description} roomMemberCount={room.memberIds.length} />) : 'No rooms.'}
+              {isRoomsLoading ? 'LOADING...' : userRooms.length > 0 ? userRooms.map(room => <RoomListItem key={room.id} roomName={room.name} roomDescription={room.description} roomMemberCount={room.memberIds.length} roomCreatorId={room.creatorId}/>) : 'No rooms.'}
             </ul>
           </div>
         </div>

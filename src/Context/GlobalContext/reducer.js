@@ -16,11 +16,17 @@ export const contextReducer = (state, action) => {
                 user: action.payload.user,
                 token: action.payload.token,
             }
+        case "SET_DBID":
+            return {
+                ...state,
+                id: action.payload.id
+            }
         case 'LOGOUT':
             return {
                 ...state,
                 user: "",
                 token: "",
+                id: "",
             }
         case "LOGIN_ERROR":
             return {

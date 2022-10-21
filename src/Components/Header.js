@@ -15,7 +15,6 @@ export default function Header() {
         await signOut(auth);
         await dispatch({type: 'LOGOUT'})
       } catch (err) {
-        console.log(err);
       }
     } else {
       navigate('/');
