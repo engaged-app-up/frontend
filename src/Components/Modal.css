@@ -18,3 +18,8 @@
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
   }
+
+  .modal-error {
+    background-color: red;
+    color: white;
+  }

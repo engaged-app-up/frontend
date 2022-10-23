@@ -2,11 +2,12 @@ import io from "socket.io-client";
 import { useState, useContext } from "react";
 import Chat from "./Chat";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
+import { SocketContext } from "../Context/SocketContext/socket";
 import UserList from "./UserList";
-const socket = io("http://localhost:3001");
 
 export default function Channel() {
   const [room, setRoom] = useState("");
+  const socket = useContext(SocketContext);
   const [showChat, setShowChat] = useState(false);
   const [state, dispatch] = useContext(GlobalContext);
   const username = state.user.displayName;

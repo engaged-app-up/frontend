@@ -26,7 +26,6 @@ export const ContextWrapper = (props) => {
 
         if (response.ok) {
           response = await response.json();
-          console.log(response.id, 'is this the id?');
           dispatch({
             type: 'SET_DBID',
             payload: {
@@ -52,10 +51,9 @@ export const ContextWrapper = (props) => {
             token: user.accessToken
           }
         })
-        getDbId(user.uid, user.accessToken)
+        getDbId(user.uid, user.accessToken);
         // ...
       }
-      console.log(state)
       dispatch({ type: 'STOP_LOADING' })
     });
   }, [])

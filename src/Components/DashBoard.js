@@ -5,6 +5,7 @@ import Button from "./Button";
 import RoomListItem from "./RoomListItem";
 import Modal from "./Modal";
 import CreateRoomForm from "./CreateRoomForm";
+import JoinRoomForm from "./JoinRoomForm";
 
 import './DashBoard.css'
 const DashBoard = props => {
@@ -17,6 +18,7 @@ const DashBoard = props => {
   const [isRoomsLoading, setIsRoomsLoading] = useState(true); 
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({}); //what we want to display in the modal component
+  const [modalError, setModalError] = useState('');
 
   const closeModal = () => {
     setShowModal(false);
@@ -46,9 +48,9 @@ const DashBoard = props => {
   return (
     <>
       <div className="">
-      <Modal className="w-11/12 md:w-5/12" closeModal={closeModal} show={showModal}>
+      <Modal className="w-11/12 md:w-5/12" closeModal={closeModal} show={showModal} modalError={modalError} setModalError={setModalError}>
         {modalContent.createRoom && <CreateRoomForm closeModal={closeModal}/>}
-        {modalContent.joinRoom && <p>Hello World</p>}
+        {modalContent.joinRoom && <JoinRoomForm closeModal={closeModal} error={modalError} setModalError={setModalError} />}
       </Modal>
         <div className="dashboard container mx-auto rounded px-4">
           <div className="dashboard-header pt-7 text-center">
@@ -70,7 +72,14 @@ const DashBoard = props => {
           <div className="dashboard-rooms mt-2 max-w-2xl mx-auto py-4">
             <h3 className="text-2xl md:text-4xl text-center py-6">Rooms</h3>
             <ul>
-              {isRoomsLoading ? 'LOADING...' : userRooms.length > 0 ? userRooms.map(room => <RoomListItem key={room.id} roomName={room.name} roomDescription={room.description} roomMemberCount={room.memberIds.length} roomCreatorId={room.creatorId}/>) : 'No rooms.'}
+              {isRoomsLoading ? 'LOADING...' : userRooms.length > 0 ?
+               userRooms.map(room => <RoomListItem key={room.id} 
+               roomName={room.name} 
+               roomDescription={room.description} 
+               roomMemberCount={room.memberIds.length} 
+               roomCreatorId={room.creatorId}
+               uuid={room.uuid}
+               />) : 'No rooms.'}
             </ul>
           </div>
         </div>
