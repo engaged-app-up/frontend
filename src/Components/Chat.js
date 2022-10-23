@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import UserList from "./UserList";
 
 export default function Chat({ socket, username, room }) {
-  // Messages States
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
@@ -68,7 +66,7 @@ export default function Chat({ socket, username, room }) {
                 event.key === "Enter" && sendMessage();
               }}
             />
-            <button class="  bg-green-500 text-white font-bold py-2 px-4 ml-48 rounded-full">
+            <button className="  bg-green-500 text-white font-bold py-2 px-4 ml-48 rounded-full">
               Send
             </button>
           </div>
