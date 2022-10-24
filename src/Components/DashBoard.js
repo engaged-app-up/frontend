@@ -37,6 +37,8 @@ const DashBoard = props => {
       fetchedRooms = await response.json();
       setUserRooms(fetchedRooms);
       setIsRoomsLoading(false);
+    } else {
+      setIsRoomsLoading(false);
     }
   }
 

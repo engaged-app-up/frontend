@@ -1,18 +1,28 @@
 .room-menu-pill {
     color: white;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; */
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+    border: 2px solid ;
 }
 
 .room-enter {
     background-color: rgba(59, 165, 138, .8);
+    border-color: rgb(59, 165, 138);
 }
 
 .room-exit {
     background-color: rgba(75, 0, 130, .8);
+    border-color: rgb(75, 0, 130);
 }
 
 .room-delete {
     background-color: rgba(255, 0, 0, .8);
+    border-color: rgb(255, 0, 0);
+}
+
+.room-invite {
+    background-color: rgba(255, 165, 0, .8);
+    border-color: rgb(255, 165, 0);
 }
 
 .room-list-item {

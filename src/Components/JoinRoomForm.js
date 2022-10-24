@@ -30,7 +30,10 @@ const JoinRoomForm = props => {
             response = await response.json();
             onError(response.error);
         }
-        window.location.reload();
+
+        if (response.ok) {
+            window.location.reload();
+        }
     }
 
     const onInputChange = (e) => {

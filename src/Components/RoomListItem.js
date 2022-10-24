@@ -51,17 +51,29 @@ const RoomListItem = props => {
             <RoomMenuPill className="room-enter">
                 <TbDoorEnter /> <span>Enter Room</span>
             </RoomMenuPill>
-            <RoomMenuPill className="room-exit">
-                <TbDoorExit /> <span>Leave Room</span>
-            </RoomMenuPill>
+            {userId !== creatorId && (
+                <RoomMenuPill className="room-exit" onClick={async () => {
+                    let response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/leave/${props.uuid}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer ${state.token}`
+                        }
+                    });
+                    if (response.ok) {
+                        window.location.reload();
+                    }
+                }}>
+                    <TbDoorExit /> <span>Leave Room</span>
+                </RoomMenuPill>
+            )}
             {userId === creatorId && (
                 <RoomMenuPill className="room-delete">
                     <RiDeleteBin5Line /> <span>Delete Room</span>
                 </RoomMenuPill>
             )}
             {userId === creatorId && (
-                <RoomMenuPill className="room-enter" onClick={getRoomShareCode}>
-                    <RiShareBoxLine /> <span>Invite Link</span>
+                <RoomMenuPill className="room-invite" onClick={getRoomShareCode}>
+                    <RiShareBoxLine /> <span>Invite Code</span>
                 </RoomMenuPill>
             )
             }
