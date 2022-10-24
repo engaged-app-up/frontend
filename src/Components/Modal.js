@@ -2,7 +2,7 @@ import React from "react";
 import { Dialog } from '@headlessui/react'
 
 import Backdrop from "./Backdrop";
-import './Modal.css'
+import './Modal.css';
 import Button from "./Button";
 
 const ModalError = props => {

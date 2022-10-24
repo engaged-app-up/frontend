@@ -53,6 +53,10 @@ export const ContextWrapper = (props) => {
         })
         getDbId(user.uid, user.accessToken);
         // ...
+      } else {
+        dispatch({
+          type: 'LOGOUT'
+        })
       }
       dispatch({ type: 'STOP_LOADING' })
     });

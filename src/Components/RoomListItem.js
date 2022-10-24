@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import RoomMenuPill from "./RoomMenuPill";
 import './RoomListItem.css';
 import { RiVipCrownLine, RiMenuLine, RiGroupLine, RiDeleteBin5Line, RiShareBoxLine } from 'react-icons/ri';
@@ -7,6 +8,7 @@ import { TbDoorEnter, TbDoorExit } from 'react-icons/tb';
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 
 const RoomListItem = props => {
+    const navigate = useNavigate();
     const [state] = useContext(GlobalContext);
     const [showRoomMenu, setShowRoomMenu] = useState(false);
 
@@ -20,6 +22,11 @@ const RoomListItem = props => {
 
     const getRoomShareCode = () => {
         navigator.clipboard.writeText(props.uuid);
+    }
+
+    const roomEnterHandler = (e) => {
+        e.preventDefault();
+        navigate(`/room/${props.uuid}`);
     }
 
     return <li className="room-list-item rounded py-4 px-4">
@@ -48,7 +55,7 @@ const RoomListItem = props => {
             <button onClick={(e) => roomMenuButtonHandler(e)}><RiMenuLine /></button>
         </div>
         <div className={`rooms-menu mx-auto flex flex-col sm:flex-row justify-between gap-2 ${showRoomMenu ? 'block' : 'hidden'}`}>
-            <RoomMenuPill className="room-enter">
+            <RoomMenuPill className="room-enter" onClick={(e) => roomEnterHandler(e)}>
                 <TbDoorEnter /> <span>Enter Room</span>
             </RoomMenuPill>
             {userId !== creatorId && (
