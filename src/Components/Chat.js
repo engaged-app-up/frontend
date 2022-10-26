@@ -32,7 +32,7 @@ export default function Chat({ socket, username, room }) {
       <div className="flex justify-center w-full bg-gray-100 text-gray-800">
         <div className="flex flex-col flex-grow ml-6 bg-white shadow-xl rounded-lg ">
           <div className="flex flex-col flex-grow p-4 overflow-auto">
-            <div className="flex mt-2 space-x-3 max-w-xs">
+            <div className="flex mt-2 space-x-3 ">
               <div className="flex-shrink-0 h-10 w-10 "></div>
               <div>
                 {messageList.map((messageContent) => {
@@ -55,7 +55,7 @@ export default function Chat({ socket, username, room }) {
 
           <div className="bg-gray-300  p-4 ">
             <input
-              className="h-10 w-1/2"
+              className="pl-5 h-10 w-5/6 h-12 rounded-full"
               type="text"
               value={currentMessage}
               placeholder="Hey..."
@@ -66,7 +66,7 @@ export default function Chat({ socket, username, room }) {
                 event.key === "Enter" && sendMessage();
               }}
             />
-            <button className="  bg-green-500 text-white font-bold py-2 px-4 ml-48 rounded-full">
+            <button className="  bg-green-500 text-white font-bold h-12 w-20 ml-8 rounded-full">
               Send
             </button>
           </div>
