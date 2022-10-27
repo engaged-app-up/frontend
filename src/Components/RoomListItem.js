@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import RoomMenuPill from "./RoomMenuPill";
 import './RoomListItem.css';
-import { RiVipCrownLine, RiMenuLine, RiGroupLine, RiDeleteBin5Line, RiShareBoxLine } from 'react-icons/ri';
+import { RiVipCrownLine, RiMenuLine, RiGroupLine, RiDeleteBin5Line, RiShareBoxLine, RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { TbDoorEnter, TbDoorExit } from 'react-icons/tb';
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
@@ -50,13 +50,13 @@ const RoomListItem = props => {
                 </div>
             </div>
             <div className="w-4/12 flex justify-center hidden sm:block">
-                <button className="block ml-auto" onClick={(e) => roomMenuButtonHandler(e)}><RiMenuLine /></button>
+                <button className="block ml-auto" onClick={(e) => roomMenuButtonHandler(e)}>{!showRoomMenu ? <RiArrowDownSLine /> : <RiArrowUpSLine />}</button>
                 {/* <RiMenuLine className="ml-auto" /> */}
             </div>
         </div>
         <p className="sm:text-left text-center py-4 break-all">{props.roomDescription}</p>
         <div className="w-full flex justify-center block sm:hidden mb-4">
-            <button onClick={(e) => roomMenuButtonHandler(e)}><RiMenuLine /></button>
+            <button onClick={(e) => roomMenuButtonHandler(e)}>{!showRoomMenu ? <RiArrowDownSLine /> : <RiArrowUpSLine />}</button>
         </div>
         <div className={`rooms-menu mx-auto flex flex-col sm:flex-row justify-between gap-2 ${showRoomMenu ? 'block' : 'hidden'}`}>
             <RoomMenuPill className="room-enter" onClick={(e) => roomEnterHandler(e)}>
