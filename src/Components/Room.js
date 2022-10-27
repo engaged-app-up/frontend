@@ -55,7 +55,7 @@ const Room = (props) => {
                 <UserList />
             </div>
             <div className="flex ml-5 w-9/12">
-                <Chat socket={socket} username={username} room={room} />{" "}
+                <Chat socket={socket} username={username} room={uuid} />{" "}
             </div>
         </div>
     )
