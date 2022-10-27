@@ -6,8 +6,6 @@ import Channel from "../Components/Channel";
 import Chat from "../Components/Chat";
 import UserList from "../Components/UserList";
 
-let room;
-
 const Room = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [state, dispatch] = useContext(GlobalContext);
@@ -16,8 +14,7 @@ const Room = (props) => {
     const uuid = useParams().uuid;
     const roomInfo = useLocation().state;
     const username = state.user.displayName;
-
-    console.log(roomInfo);
+    let room;
 
     const getRoomDetails = async (uuid) => {
         setIsLoading(true);
@@ -31,6 +28,7 @@ const Room = (props) => {
             room = await response.json();
             room.members = [room.creator, ...room.members];
             setRoomDetails(room);
+            console.log(room);
         }
         setIsLoading(false);
         console.log(response);
@@ -39,7 +37,6 @@ const Room = (props) => {
     useEffect(() => {
         socket.emit("join_room", uuid);
         getRoomDetails(uuid);
-
         return () => {
             //
         }
