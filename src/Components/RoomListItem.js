@@ -26,7 +26,11 @@ const RoomListItem = props => {
 
     const roomEnterHandler = (e) => {
         e.preventDefault();
-        navigate(`/room/${props.uuid}`);
+        navigate(`/room/${props.uuid}`, {state: {
+            name: props.roomName,
+            description: props.roomDescription,
+            uuid: props.uuid
+        }});
     }
 
     return <li className="room-list-item rounded py-4 px-4">

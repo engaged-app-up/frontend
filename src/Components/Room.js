@@ -1,14 +1,23 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
+import { SocketContext } from "../Context/SocketContext/socket";
+import Channel from "../Components/Channel";
+import Chat from "../Components/Chat";
+import UserList from "../Components/UserList";
 
 let room;
 
 const Room = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [state, dispatch] = useContext(GlobalContext);
+    const socket = useContext(SocketContext);
     const [roomDetails, setRoomDetails] = useState({});
     const uuid = useParams().uuid;
+    const roomInfo = useLocation().state;
+    const username = state.user.displayName;
+
+    console.log(roomInfo);
 
     const getRoomDetails = async (uuid) => {
         setIsLoading(true);
@@ -28,21 +37,26 @@ const Room = (props) => {
     }
 
     useEffect(() => {
+        socket.emit("join_room", uuid);
         getRoomDetails(uuid);
+
+        return () => {
+            //
+        }
     }, []);
 
     if (isLoading) {
         return <h1>LOADING</h1>
     }
 
-    return(
-        <div>
-            <p>Room Name: {roomDetails.name}</p>
-            <p>Room description: {roomDetails.description}</p>
-            <h1>Members</h1>
-            <ul>
-                {!isLoading && roomDetails.members && roomDetails.members.map(member => <li>{member.displayName}</li>)}
-            </ul>
+    return (
+        <div className="flex mt-5">
+            <div className="flex">
+                <UserList />
+            </div>
+            <div className="flex ml-5 w-9/12">
+                <Chat socket={socket} username={username} room={room} />{" "}
+            </div>
         </div>
     )
 }

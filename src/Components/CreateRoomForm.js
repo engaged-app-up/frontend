@@ -13,20 +13,6 @@ const CreateRoomForm = props => {
         props.closeModal();
     }
 
-    const onSubmit = async (e) => {
-        const body = {name: roomForm.roomName, description: roomForm.roomDescription};
-        e.preventDefault();
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/create`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${state.user.accessToken}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        });
-        window.location.reload();
-    }
-
     const onInputChange = (e) => {
         setRoomForm({...roomForm, [e.target.name]: e.target.value});
     }
@@ -61,7 +47,7 @@ const CreateRoomForm = props => {
                     />
                 </div>
                 <div className="flex flex-col gap-2 md:gap-0 md:justify-between md:flex-row">
-                            <Button size="small" className="modal-button" onClick={(e) => onSubmit(e)}>Submit</Button>
+                            <Button size="small" className="modal-button" onClick={(e) => props.handleCreateRoom(e, roomForm.roomName, roomForm.roomDescription)}>Submit</Button>
                             <Button size="small" className="modal-button" onClick={(e) => onClose(e)}>Close</Button>
                         </div>
             </form>

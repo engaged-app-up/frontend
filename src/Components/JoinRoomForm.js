@@ -3,48 +3,11 @@ import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 import Button from "./Button";
 
 const JoinRoomForm = props => {
-
     const [joinFormData, setJoinFormData] = useState('');
     const [state, dispatch] = useContext(GlobalContext);
 
-    const onClose = (e) => {
-        e.preventDefault();
-        setJoinFormData('');
-        props.closeModal();
-        props.setModalError('');
-    }
-
-    const onSubmit = async (e) => {
-        const body = {roomUuid: joinFormData};
-        e.preventDefault();
-        let response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/join`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${state.user.accessToken}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        });
-
-        if (!response.ok) {
-            response = await response.json();
-            onError(response.error);
-        }
-
-        if (response.ok) {
-            window.location.reload();
-        }
-    }
-
     const onInputChange = (e) => {
         setJoinFormData(e.target.value);
-    }
-
-    const onError = async (error) => {
-        props.setModalError(error);
-        setTimeout(() => {
-            props.setModalError('');
-        }, 2000);
     }
 
     return (
@@ -66,8 +29,8 @@ const JoinRoomForm = props => {
                     />
                 </div>
                 <div className="flex flex-col gap-2 md:gap-0 md:justify-between md:flex-row">
-                            <Button size="small" className="modal-button" onClick={(e) => onSubmit(e)}>Submit</Button>
-                            <Button size="small" className="modal-button" onClick={(e) => onClose(e)}>Close</Button>
+                            <Button size="small" className="modal-button" onClick={(e) => props.handleJoinRoom(joinFormData, e)}>Submit</Button>
+                            <Button size="small" className="modal-button" onClick={(e) => props.closeModal(e)}>Close</Button>
                         </div>
             </form>
         </div>
