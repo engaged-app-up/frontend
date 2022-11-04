@@ -18,6 +18,8 @@ const Room = (props) => {
     const username = state.user.displayName;
     const navigate = useNavigate();
     let room;
+    const activeUsers = useState([]);
+
 
     const getRoomDetails = async (uuid) => {
         setIsLoading(true);
@@ -38,8 +40,11 @@ const Room = (props) => {
     }
 
     useEffect(() => {
-        socket.emit("join_room", uuid);
         getRoomDetails(uuid);
+        socket.emit("join_room", uuid);
+        socket.on("update_active_users", (userList) => {
+            console.log(userList, 'the user list');
+        })
         return () => {
             //
         }
