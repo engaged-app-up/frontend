@@ -25,7 +25,6 @@ const DashBoard = props => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({}); //what we want to display in the modal component
   const [modalError, setModalError] = useState('');
-
   const closeModal = () => {
     setShowModal(false);
     setModalContent({});

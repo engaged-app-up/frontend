@@ -2,6 +2,7 @@ import React, { createContext, useState, useReducer, useEffect } from 'react';
 import { contextReducer } from './reducer';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { CircleLoader } from 'react-spinners';
+import { socket } from '../SocketContext/socket';
 
 export const GlobalContext = createContext();
 export const ContextWrapper = (props) => {
@@ -26,6 +27,8 @@ export const ContextWrapper = (props) => {
 
         if (response.ok) {
           response = await response.json();
+          socket.userId = await response.id
+          await socket.emit('set_user_id', response.id);
           dispatch({
             type: 'SET_DBID',
             payload: {
@@ -58,6 +61,7 @@ export const ContextWrapper = (props) => {
           type: 'LOGOUT'
         })
       }
+      socket.userId = state.id;
       dispatch({ type: 'STOP_LOADING' })
     });
   }, [])

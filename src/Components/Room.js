@@ -20,7 +20,6 @@ const Room = (props) => {
     let room;
     const [activeUsers, setActiveUsers] = useState([]);
 
-
     const getRoomDetails = async (uuid) => {
         setIsLoading(true);
         let response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/${uuid}`, {
