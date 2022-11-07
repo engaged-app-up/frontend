@@ -66,7 +66,7 @@ const Room = (props) => {
                             <img src={logo} className="w-32 mx-auto" alt="tailus logo" />
                         </a>
                     </div>
-                    <UserList photoURL={state.user.photoURL} username={state.user.displayName} roomName={roomDetails.name} roomMembers={roomDetails.members} />
+                    <UserList photoURL={state.user.photoURL} username={state.user.displayName} roomName={roomDetails.name} roomMembers={roomDetails.members} activeUsers={activeUsers} />
                 </div>
 
                 <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">

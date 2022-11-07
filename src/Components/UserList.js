@@ -1,4 +1,19 @@
-export default function UserList({ username, photoURL, roomName, roomMembers }) {
+import React, { useEffect, useState, useContext } from "react";
+import './UserList.css';
+
+export default function UserList({ username, photoURL, roomName, roomMembers, activeUsers }) {
+  console.log(activeUsers, 'active users in userList component');
+  const [activeUserList, setActiveUserList] = useState([]);
+  const activeUserIds = activeUsers.map(user => user.userId);
+
+  // active & inactiveUsers
+  const displayedActive = roomMembers && roomMembers.filter(user => activeUserIds.includes(user.id));
+  const inactiveUsers = roomMembers && roomMembers.filter(user => !displayedActive.includes(user));
+
+  useEffect(() => {
+    setActiveUserList([...activeUsers]);
+  }, [activeUsers]);
+  
   return (
     <div className="flex flex-col py-8 pl-6 pr-2 bg-white flex-shrink-0">
       <div className="flex flex-row items-center justify-center h-12 w-full">
@@ -19,11 +34,33 @@ export default function UserList({ username, photoURL, roomName, roomMembers }) 
         <div className="flex flex-row items-center justify-between text-xs">
           <span className="font-bold">Active Users</span>
           <span className="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">
-            {roomMembers && roomMembers.length}
+            {activeUsers && activeUsers.length}
           </span>
         </div>
-        <ul className="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto">
-          {roomMembers && roomMembers.filter(user => user.displayName !== username).map(user => {
+        <ul className="active-list flex flex-col space-y-1 mt-4 -mx-2 h-auto overflow-y-auto">
+          {displayedActive && displayedActive.filter(user => user.displayName !== username).map(user => {
+            return (
+              <li>
+              <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 w-full">
+                <div className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
+                  <img className="active-user" src={photoURL} />
+                </div>
+                <div className="ml-2 text-sm font-semibold">{user.displayName}</div>
+              </button>
+            </li>
+            )
+          })}
+        </ul>
+      </div>
+      <div className="flex flex-col mt-8">
+        <div className="flex flex-row items-center justify-between text-xs">
+          <span className="font-bold">Inactive Users</span>
+          <span className="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">
+            {inactiveUsers && inactiveUsers.length}
+          </span>
+        </div>
+        <ul className="flex flex-col space-y-1 mt-4 -mx-2 h-auto overflow-y-auto">
+          {inactiveUsers && inactiveUsers.filter(user => user.displayName !== username).map(user => {
             return (
               <li>
               <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 w-full">
