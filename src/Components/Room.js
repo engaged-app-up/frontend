@@ -18,7 +18,7 @@ const Room = (props) => {
     const username = state.user.displayName;
     const navigate = useNavigate();
     let room;
-    const activeUsers = useState([]);
+    const [activeUsers, setActiveUsers] = useState([]);
 
 
     const getRoomDetails = async (uuid) => {
@@ -42,13 +42,17 @@ const Room = (props) => {
     useEffect(() => {
         getRoomDetails(uuid);
         socket.emit("join_room", uuid);
-        socket.on("update_active_users", (userList) => {
-            console.log(userList, 'the user list');
-        })
         return () => {
-            //
+            socket.emit("leave_room", uuid);
         }
     }, []);
+
+    useEffect(() => {
+        socket.on("get_active_users", (userList) => {
+            console.log(userList, 'the user list');
+            setActiveUsers([...userList]);
+        })
+    }, [socket])
 
     if (isLoading) {
         return <h1>LOADING</h1>
