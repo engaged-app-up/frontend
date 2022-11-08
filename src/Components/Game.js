@@ -27,12 +27,14 @@ export default function Game(socket, username, room, photoURL) {
               <div className="flex flex-col justify-center ">
                 <h1 className="mt-20 text-4xl font-bold"> Ice Breakers </h1>
 
-                <p className="mt-20 text-blue-800 text-lg">Here is a question </p>
+                <p className="mt-20 text-blue-800 text-lg">
+                  Here is a question{" "}
+                </p>
 
                 <div className="flex mt-20 h-20 w-20 rounded-full border overflow-hidden">
                   <img src={photoURL} alt="Avatar" className="h-full w-full" />
                 </div>
-                
+
                 <div className="flex flex-row mt-20">
                   <button className="bg-green-500 text-white font-bold h-12 w-32 rounded-full">
                     Response1
@@ -44,8 +46,7 @@ export default function Game(socket, username, room, photoURL) {
                     Response3
                   </button>
                 </div>
-                </div>
-              
+              </div>
             </div>
 
             <div className="flex w-full mt-2 max-w-xs"></div>
