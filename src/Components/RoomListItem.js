@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import RoomMenuPill from "./RoomMenuPill";
 import './RoomListItem.css';
@@ -6,11 +6,14 @@ import { RiVipCrownLine, RiMenuLine, RiGroupLine, RiDeleteBin5Line, RiShareBoxLi
 import { BsFillPersonFill } from 'react-icons/bs';
 import { TbDoorEnter, TbDoorExit } from 'react-icons/tb';
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
+import { SocketContext } from "../Context/SocketContext/socket";
 
 const RoomListItem = props => {
     const navigate = useNavigate();
     const [state] = useContext(GlobalContext);
     const [showRoomMenu, setShowRoomMenu] = useState(false);
+    const socket = useContext(SocketContext);
+    const [isRoomActive, setIsRoomActive] = useState(false);
 
     const userId = state.id;
     const creatorId = props.roomCreatorId;
@@ -33,12 +36,26 @@ const RoomListItem = props => {
         }});
     }
 
+    useEffect(() => {
+        socket.emit('is_room_active', props.uuid);
+        socket.on('room_set_active', async (data) => {
+            if (data.room == props.uuid && data.count > 0) {
+                setIsRoomActive(true);
+            } 
+        })
+        socket.on('room_set_inactive', async (data) => {
+            if (data == props.uuid) {
+                setIsRoomActive(false);
+            }
+        })
+    }, []);
+
     return <li className="room-list-item rounded py-4 px-4">
         <div className="content-wrap justify-between flex items-center gap-5 flex-col sm:flex-row">
             <div className="flex flex-row items-center gap-5 grow justify-center">
                 <div className="flex items-center gap-5 mr-auto basis-1/3">
                     {userId === creatorId ? <RiVipCrownLine /> : <BsFillPersonFill />}
-                    <div className="room-indicator"></div>
+                    <div className={`room-indicator ${isRoomActive ? 'room-active' : 'room-inactive'}`}></div>
                 </div>
                 <div className="basis-1/3">
                     <p className="room-title">{props.roomName}</p>

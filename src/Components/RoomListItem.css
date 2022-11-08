@@ -37,3 +37,7 @@
     background-color: green;
     border-radius: 100%;
 }
+
+.room-inactive {
+    background-color: grey !important;
+}
