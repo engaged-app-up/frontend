@@ -7,6 +7,7 @@ import DashBoard from "./Components/DashBoard";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Room from "./Components/Room";
 import Channel from "./Components/Channel";
+import Game from "./Components/Game";
 import { SocketContext, socket } from "./Context/SocketContext/socket";
 
 import './App.css';
@@ -28,6 +29,7 @@ function App() {
               <Route path="/dashboard" element={<ProtectedRoute><DashBoard /></ProtectedRoute>}></Route>
               <Route path="/room/:uuid" element={<ProtectedRoute><Room /></ProtectedRoute>}></Route>
               <Route path="/chat" element={<Channel />} />
+              <Route path="/game" element={<Game />} />
             </Routes>
           </BrowserRouter>
         </SocketContext.Provider>

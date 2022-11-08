@@ -4,6 +4,8 @@ import Chat from "./Chat";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 import { SocketContext } from "../Context/SocketContext/socket";
 import UserList from "./UserList";
+import Game from "./Game";
+
 
 export default function Channel() {
   const [room, setRoom] = useState("");

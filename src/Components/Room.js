@@ -4,9 +4,11 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { SocketContext } from "../Context/SocketContext/socket";
 import Chat from "../Components/Chat";
 import UserList from "../Components/UserList";
+import Game from "./Game";
 import { RiLogoutBoxRLine, RiSettings3Line, RiArrowGoBackFill } from "react-icons/ri";
 
 import logo from "../assets/img/engaged.svg";
+
 
 const Room = (props) => {
     const [isLoading, setIsLoading] = useState(false);
