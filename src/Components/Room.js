@@ -69,7 +69,7 @@ const Room = (props) => {
                     <UserList photoURL={state.user.photoURL} username={state.user.displayName} roomName={roomDetails.name} roomMembers={roomDetails.members} activeUsers={activeUsers} />
                 </div>
 
-                <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
+                <div className=" -mx-6 pt-4 flex justify-between items-center border-t">
                     <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group" onClick={(e) => {
                         e.preventDefault();
                         navigate('/dashboard');
