@@ -24,8 +24,8 @@ export const contextReducer = (state, action) => {
         case 'LOGOUT':
             return {
                 ...state,
-                user: "",
-                token: "",
+                user: null,
+                token: null,
                 id: "",
             }
         case "LOGIN_ERROR":

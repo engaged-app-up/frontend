@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 import { Navigate } from "react-router-dom";
@@ -54,7 +54,7 @@ export default function Login(props) {
 
   if (state.user) return <Navigate to="/dashboard" />;
 
-  return (
+  if (state.user == null) return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden p-4 gap-3">
       <div className="w-full md:max-w-xs mx-auto"><img className="logo-fill" src={logo} /></div>
       <div className="w-full p-6 mx-auto bg-white rounded-md shadow-md lg:max-w-xl ">
