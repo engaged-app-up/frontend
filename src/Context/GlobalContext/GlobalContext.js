@@ -12,56 +12,67 @@ export const ContextWrapper = (props) => {
     token: "",
     loading: false,
   }
+
+  //function to get the dbId of the user since state is assigned with firebase user object onAuthStateChange below. 
+  //called after onAuthStateChage and assigns an id prop to the state object so we have access to this globally.
+  const getDbUser = async (uid, token) => {
+    let response;
+    try {
+      response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/dbuser`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'uid': uid
+        }
+      })
+
+      if (response.ok) {
+        response = await response.json();
+        socket.userId = await response.id
+        await socket.emit('set_user_id', response.id);
+        const { id, uid, displayName, email, role } = response;
+        const user = {
+          id,
+          uid,
+          displayName,
+          email,
+          role,
+
+        }
+        return user;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const setUserInGlobalState = async (fbUser) => {
+    let userFromDb = await getDbUser(fbUser.uid, fbUser.accessToken);
+    userFromDb.photoURL = fbUser.photoURL;
+    const token = fbUser.accessToken;
+    dispatch({
+      type: 'SET_USER',
+      payload: {
+        user: userFromDb,
+        token: token
+      }
+    })
+    socket.userId = userFromDb.id;
+  }
+
   const [state, dispatch] = useReducer(contextReducer, initialState);
   useEffect(() => {
-    //function to get the dbId of the user since state is assigned with firebase user object onAuthStateChange below. 
-    //called after onAuthStateChage and assigns an id prop to the state object so we have access to this globally.
-    const getDbId = async (uid, token) => {
-      let response;
-      try {
-        response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${uid}/dbId`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-
-        if (response.ok) {
-          response = await response.json();
-          socket.userId = await response.id
-          await socket.emit('set_user_id', response.id);
-          dispatch({
-            type: 'SET_DBID',
-            payload: {
-              id: response.id
-            }
-          })
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
     console.log('use effect running.')
     dispatch({ type: 'SET_LOADING' })
     onAuthStateChanged(auth, (user) => {
       console.log('on auth state changed running')
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        dispatch({
-          type: 'SET_USER',
-          payload: {
-            user: user,
-            token: user.accessToken
-          }
-        })
-        getDbId(user.uid, user.accessToken);
+        setUserInGlobalState(user);
         // ...
       } else {
         dispatch({
           type: 'LOGOUT'
         })
       }
-      socket.userId = state.id;
       dispatch({ type: 'STOP_LOADING' })
     });
   }, [])

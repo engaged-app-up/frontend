@@ -8,14 +8,16 @@ import { TbDoorEnter, TbDoorExit } from 'react-icons/tb';
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 import { SocketContext } from "../Context/SocketContext/socket";
 
+
 const RoomListItem = props => {
     const navigate = useNavigate();
     const [state] = useContext(GlobalContext);
     const [showRoomMenu, setShowRoomMenu] = useState(false);
     const socket = useContext(SocketContext);
+    console.log(socket.userId);
     const [isRoomActive, setIsRoomActive] = useState(false);
 
-    const userId = state.id;
+    const userId = state.user.id;
     const creatorId = props.roomCreatorId;
 
     const roomMenuButtonHandler = (e) => {
@@ -27,8 +29,9 @@ const RoomListItem = props => {
         navigator.clipboard.writeText(props.uuid);
     }
 
-    const roomEnterHandler = (e) => {
+    const roomEnterHandler = async (e) => {
         e.preventDefault();
+        await socket.emit('set_user_id', state.user.id);
         navigate(`/room/${props.uuid}`, {state: {
             name: props.roomName,
             description: props.roomDescription,

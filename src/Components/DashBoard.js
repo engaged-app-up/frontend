@@ -25,6 +25,8 @@ const DashBoard = props => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({}); //what we want to display in the modal component
   const [modalError, setModalError] = useState('');
+
+  console.log(state.token);
   const closeModal = () => {
     setShowModal(false);
     setModalContent({});
@@ -56,7 +58,7 @@ const DashBoard = props => {
     let fetchedRooms;
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/user/${uid}/rooms`, {
       headers: {
-        'Authorization': `Bearer ${state.user.accessToken}`
+        'Authorization': `Bearer ${state.token}`
       }
     });
 
@@ -81,7 +83,7 @@ const DashBoard = props => {
     let response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/join`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${state.user.accessToken}`,
+        'Authorization': `Bearer ${state.token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
@@ -111,7 +113,7 @@ const DashBoard = props => {
     const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/create`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${state.user.accessToken}`,
+        'Authorization': `Bearer ${state.token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
@@ -124,8 +126,8 @@ const DashBoard = props => {
 
     if (res.ok) {
       let newRoom = await res.json();
-      let ownedRooms = userRooms.filter(room => room.creatorId === state.id);
-      let otherRooms = userRooms.filter(room => room.creatorId !== state.id);
+      let ownedRooms = userRooms.filter(room => room.creatorId === state.user.id);
+      let otherRooms = userRooms.filter(room => room.creatorId !== state.user.id);
       ownedRooms.push(newRoom);
       setUserRooms([...ownedRooms, ...otherRooms]);
       closeModal();
