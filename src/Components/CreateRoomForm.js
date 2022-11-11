@@ -27,7 +27,7 @@ const CreateRoomForm = props => {
                         type="text" 
                         id="room-name"
                         name="roomName"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                         placeholder="Room Name" 
                         value={roomForm.roomName}
                         onChange={(e) => {onInputChange(e)}}
@@ -39,7 +39,7 @@ const CreateRoomForm = props => {
                     <textarea 
                         id="room-description" 
                         name="roomDescription"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                         placeholder="Room Description" 
                         value={roomForm.roomDescription}
                         onChange={(e) => {onInputChange(e)}}
