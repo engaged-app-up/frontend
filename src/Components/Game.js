@@ -1,73 +1,47 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
+import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
+import Button from "./Button";
 
-export default function Game(socket, username, room, photoURL) {
-  const [currentAnswer, setCurrentAnswer] = useState("");
-  const [messageList, setMessageList] = useState([]);
+import './Game.css';
 
-  const sendAnswer = async () => {
-    if (currentAnswer !== "") {
-      const messageData = {
-        room: room,
-        author: username,
-        message: currentAnswer,
-        time:
-          new Date(Date.now()).getHours() +
-          ":" +
-          new Date(Date.now()).getMinutes(),
-      };
-    }
-  };
+export default function Game({socket, username, room, photoURL, className}) {
+  const [state, dispatch] = useContext(GlobalContext);
 
   return (
     <>
-      <div className="flex justify-center w-full h-full text-gray-800">
+      <div className={`${className} flex justify-center w-full h-full text-gray-800`}>
         <div className="flex flex-col flex-grow ml-6 bg-white shadow-xl rounded-lg ">
           <div className="flex flex-col flex-grow p-4 overflow-auto">
             <div className="flex mt-6 justify-center ">
-              <div className="flex flex-col justify-center ">
-                <h1 className="mt-20 text-4xl font-bold"> Ice Breakers </h1>
-
-                <p className="mt-20 text-blue-800 text-lg">
-                  Here is a question{" "}
-                </p>
-
-                <div className="flex mt-20 h-20 w-20 rounded-full border overflow-hidden">
-                  <img src={photoURL} alt="Avatar" className="h-full w-full" />
-                </div>
-
-                <div className="flex flex-row mt-20">
-                  <button className="bg-green-500 text-white font-bold h-12 w-32 rounded-full">
-                    Response1
-                  </button>
-                  <button className="  bg-green-500 text-white font-bold h-12 w-32 ml-6 rounded-full">
-                    Response2
-                  </button>
-                  <button className="  bg-green-500 text-white font-bold h-12 w-32 ml-6 rounded-full">
-                    Response3
-                  </button>
+              <div className="flex flex-col justify-center items-center">
+                <h1 className="text-xl font-semibold text-gray-600 md:text-4xl text-center py-6"><span>🧊</span>Ice Breakers<span>🧊</span></h1>
+                <h2 className="text-xl font-semibold text-gray-600 md:text-3xl text-center py-6">A really interesting question?</h2>
+                <div className="selected-user flex flex-col">
+                  <div className="selected-user-header flex gap-2 justify-center items-center">
+                    <span className="inline-block text-2xl">🎉</span>
+                    <h3 className="text-xl font-semibold text-gray-600 md:text-2xl text-center py-6">Selected Username</h3>
+                    <span className="inline-block text-2xl">🎉</span>
+                  </div>
+                  <div className="selected-avatar m-auto">
+                    <img className="w-full" src={state.user.photoURL} />
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div className="flex w-full mt-2 max-w-xs"></div>
-          </div>
-
-          <div className="bg-gray-300  p-4 ">
-            <input
-              className="pl-5 h-10 w-5/6 h-12 rounded-full"
-              type="text"
-              value={currentAnswer}
-              placeholder="Hey..."
-              onChange={(event) => {
-                setCurrentAnswer(event.target.value);
-              }}
-              onKeyPress={(event) => {
-                event.key === "Enter" && sendAnswer();
-              }}
-            />
-            <button className="  bg-green-500 text-white font-bold h-12 w-20 ml-8 rounded-full">
-              Submit
-            </button>
+            <div className="reactions mx-auto flex justify-between items-center mt-16">
+              <div className="w-1/4">
+                <RiArrowLeftSLine className="text-2xl"/>
+              </div>
+              <div className="reaction-buttons w-2/4 flex justify-between">
+                <Button className><span className="text-2xl mr-2">🤣</span> Funny</Button>
+                <Button><span className="text-2xl mr-2">💡</span> Interesting</Button>
+                <Button><span className="text-2xl mr-2">🤯</span> Woah!</Button>
+              </div>
+              <div className="w-1/4">
+                <RiArrowRightSLine className="ml-auto text-2xl"/>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Chat({ socket, username, room }) {
+export default function Chat({ socket, username, room, className }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
@@ -29,7 +29,7 @@ export default function Chat({ socket, username, room }) {
   }, [socket]);
   return (
     <>
-      <div className="flex justify-center w-full h-full text-gray-800">
+      <div className={`flex justify-center w-full h-full text-gray-800 ${className}`}>
         <div className="flex flex-col flex-grow ml-6 bg-white shadow-xl rounded-lg ">
           <div className="flex flex-col flex-grow p-4 overflow-auto">
             <div className="flex mt-2 space-x-3 ">

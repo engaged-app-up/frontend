@@ -5,6 +5,9 @@ import { SocketContext } from "../Context/SocketContext/socket";
 import Chat from "../Components/Chat";
 import UserList from "../Components/UserList";
 import Game from "./Game";
+import Modal from "./Modal";
+import GameHostModalform from "./GameHostModalForm";
+
 import {
   RiLogoutBoxRLine,
   RiSettings3Line,
@@ -15,17 +18,20 @@ import logo from "../assets/img/engaged.svg";
 
 const Room = (props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [state, dispatch] = useContext(GlobalContext);
-  const socket = useContext(SocketContext);
+  const [state, dispatch] = useContext(GlobalContext); // global state.
+  const socket = useContext(SocketContext); // global socket instance.
   const [roomDetails, setRoomDetails] = useState({});
-  const uuid = useParams().uuid;
-  const roomInfo = useLocation().state;
+  const [activeUsers, setActiveUsers] = useState([]);
+  const [isRoomModeGame, setIsRoomModeGame] = useState(false);
+  const uuid = useParams().uuid; //uuid of room.
   const username = state.user.displayName;
   const navigate = useNavigate();
   let room;
-  const [activeUsers, setActiveUsers] = useState([]);
+
+  const [showHostModal, setShowHostModal] = useState(false); //
 
   const getRoomDetails = async (uuid) => {
+    let room;
     setIsLoading(true);
     let response = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/api/rooms/${uuid}`,
@@ -45,6 +51,10 @@ const Room = (props) => {
     setIsLoading(false);
     console.log(response);
   };
+
+  const setRoomToGameMode = () => {
+    setIsRoomModeGame(!isRoomModeGame);
+  }
 
   useEffect(() => {
     getRoomDetails(uuid);
@@ -67,6 +77,9 @@ const Room = (props) => {
 
   return (
     <>
+      <Modal className="w-2/4" show={showHostModal} showSetter={setShowHostModal}>
+        <GameHostModalform />
+      </Modal>
       <aside className="block md:fixed z-1 top-0 pb-3 px-6 flex flex-col justify-between md:h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
         <div>
           <div className="-mx-6 px-6 py-4">
@@ -101,7 +114,8 @@ const Room = (props) => {
         </div>
       </aside>
       <div className="ml-auto lg:w-[75%] xl:w-[80%] 2xl:w-[85%] h-screen px-4">
-        <Chat socket={socket} username={username} room={uuid} />
+        <Chat className={`${isRoomModeGame && 'hidden'}`} socket={socket} username={username} room={uuid} />
+        <Game className={`${!isRoomModeGame && 'hidden'}`} socket={socket} username={username} room={room} photoURL={state.user.photoURL}/>
       </div>
     </>
   );
