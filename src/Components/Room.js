@@ -7,6 +7,7 @@ import UserList from "../Components/UserList";
 import Game from "./Game";
 import Modal from "./Modal";
 import GameHostModalform from "./GameHostModalForm";
+import { isRoomOwner } from "./RoomUtil";
 
 import {
   RiLogoutBoxRLine,
@@ -52,6 +53,13 @@ const Room = (props) => {
     console.log(response);
   };
 
+  const hostMenuHandler = (e) => {
+    e.preventDefault();
+    if (isRoomOwner(state.user.id, roomDetails.creatorId)) {
+      setShowHostModal(true);
+    }
+  }
+
   const setRoomToGameMode = () => {
     setIsRoomModeGame(!isRoomModeGame);
   }
@@ -59,6 +67,9 @@ const Room = (props) => {
   useEffect(() => {
     getRoomDetails(uuid);
     socket.emit("join_room", uuid);
+    socket.on("set_room_state", (data) => {
+      setIsRoomModeGame(data);
+    })
     return () => {
       socket.emit("leave_room", uuid);
     };
@@ -77,8 +88,8 @@ const Room = (props) => {
 
   return (
     <>
-      <Modal className="w-2/4" show={showHostModal} showSetter={setShowHostModal}>
-        <GameHostModalform />
+      <Modal className="w-2/4" show={showHostModal}>
+        <GameHostModalform showSetter={setShowHostModal} room={uuid} isRoomModeGame={isRoomModeGame} setIsRoomModeGame={setIsRoomModeGame}/>
       </Modal>
       <aside className="block md:fixed z-1 top-0 pb-3 px-6 flex flex-col justify-between md:h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
         <div>
@@ -107,7 +118,7 @@ const Room = (props) => {
             <RiArrowGoBackFill className="text-xl" />
             <span className="group-hover:text-gray-700">Dashboard</span>
           </button>
-          <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
+          <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group" onClick={(e) => hostMenuHandler(e)}>
             <RiSettings3Line className="text-xl" />
             <span className="group-hover:text-gray-700">Settings</span>
           </button>

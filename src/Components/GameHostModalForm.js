@@ -1,28 +1,33 @@
+import { useEffect } from "react";
+import { socket } from "../Context/SocketContext/socket";
 import Button from "./Button";
-const GameHostModalform = () => {
+const GameHostModalform = ({ showSetter, isRoomModeGame, room }) => {
+
+    const onClose = (e) => {
+        e.preventDefault();
+        showSetter(false);
+    }
+
+    const onChange = (e) => {
+        if (e.target.value == "chat") {
+            socket.emit('room_state_change', {room: room, isRoomModeGame: false});
+        } else {
+            socket.emit('room_state_change', {room: room, isRoomModeGame: true});
+        }
+    }
 
     return (
         <>
             <div className="create-room-container w-9/12 mx-auto">
                 <form className="p-4 w-100 md:w-10/12 mx-auto">
-                    <h2 className="text-center p-4">Enter your room join code!</h2>
-                    <div className="mb-2 pb-4">
-                        <label htmlFor="room-name" hidden>Join Code</label>
-                        <input
-                            type="text"
-                            id="join-code"
-                            name="join-code"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder="ex: abcdefgh-1234-ijklm-5678-nopqrs909tuv"
-                            value={'data'}
-                            onChange={(e) => { console.log('todo')}}
-                            required
-                            disabled={'error'}
-                        />
-                    </div>
+                    <label for="room-mode"><h1>Select room state.</h1></label>
+
+                    <select value={isRoomModeGame ? "icebreakers" : "chat"} name="room-mode" id="room-mode" onChange={onChange}>
+                        <option value="chat">Chat</option>
+                        <option value="icebreakers">Icebreakers</option>
+                    </select>
                     <div className="flex flex-col gap-2 md:gap-0 md:justify-between md:flex-row">
-                        <Button size="small" className="modal-button" onClick={(e) => console.log('todo')}>Submit</Button>
-                        <Button size="small" className="modal-button" onClick={(e) => console.log('todo')}>Close</Button>
+                        <Button size="small" className="modal-button" onClick={(e) => onClose(e)}>Close</Button>
                     </div>
                 </form>
             </div>
