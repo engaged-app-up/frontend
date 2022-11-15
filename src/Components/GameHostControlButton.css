@@ -1,0 +1,13 @@
+.centered-axis-x {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.game-button-popover {
+    top: -23px;
+}
+
+.host-control:hover p {
+    display: block !important;
+}

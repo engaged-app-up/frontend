@@ -7,9 +7,11 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { TbDoorEnter, TbDoorExit } from 'react-icons/tb';
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 import { SocketContext } from "../Context/SocketContext/socket";
+import { getAuth } from "firebase/auth";
 
 
 const RoomListItem = props => {
+    const auth = getAuth();
     const navigate = useNavigate();
     const [state] = useContext(GlobalContext);
     const [showRoomMenu, setShowRoomMenu] = useState(false);
@@ -87,7 +89,7 @@ const RoomListItem = props => {
                     let response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/leave/${props.uuid}`, {
                         method: 'PUT',
                         headers: {
-                            'Authorization': `Bearer ${state.token}`
+                            'Authorization': `Bearer ${await auth.currentUser.getIdToken(true)}`
                         }
                     });
                     if (response.ok) {

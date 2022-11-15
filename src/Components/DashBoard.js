@@ -26,7 +26,6 @@ const DashBoard = props => {
   const [modalContent, setModalContent] = useState({}); //what we want to display in the modal component
   const [modalError, setModalError] = useState('');
 
-  console.log(state.token);
   const closeModal = () => {
     setShowModal(false);
     setModalContent({});
@@ -58,7 +57,7 @@ const DashBoard = props => {
     let fetchedRooms;
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/user/${uid}/rooms`, {
       headers: {
-        'Authorization': `Bearer ${state.token}`
+        'Authorization': `Bearer ${await auth.currentUser.getIdToken(true)}`
       }
     });
 
@@ -83,7 +82,7 @@ const DashBoard = props => {
     let response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/join`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${state.token}`,
+        'Authorization': `Bearer ${await auth.currentUser.getIdToken(true)}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
@@ -113,7 +112,7 @@ const DashBoard = props => {
     const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/create`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${state.token}`,
+        'Authorization': `Bearer ${await auth.currentUser.getIdToken(true)}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)

@@ -8,6 +8,7 @@ import Game from "./Game";
 import Modal from "./Modal";
 import GameHostModalform from "./GameHostModalForm";
 import { isRoomOwner } from "./RoomUtil";
+import { getAuth } from "firebase/auth";
 
 import {
   RiLogoutBoxRLine,
@@ -18,6 +19,7 @@ import {
 import logo from "../assets/img/engaged.svg";
 
 const Room = (props) => {
+  const auth = getAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [state, dispatch] = useContext(GlobalContext); // global state.
   const socket = useContext(SocketContext); // global socket instance.
@@ -38,7 +40,7 @@ const Room = (props) => {
       `${process.env.REACT_APP_BACKEND_URL}/api/rooms/${uuid}`,
       {
         headers: {
-          Authorization: `Bearer ${state.token}`,
+          Authorization: `Bearer ${await auth.currentUser.getIdToken(true)}`,
         },
       }
     );
@@ -58,10 +60,6 @@ const Room = (props) => {
     if (isRoomOwner(state.user.id, roomDetails.creatorId)) {
       setShowHostModal(true);
     }
-  }
-
-  const setRoomToGameMode = () => {
-    setIsRoomModeGame(!isRoomModeGame);
   }
 
   useEffect(() => {
@@ -143,7 +141,7 @@ const Room = (props) => {
       </aside>
       <div className="ml-auto lg:w-[75%] xl:w-[80%] 2xl:w-[85%] h-screen px-4">
         <Chat className={`${isRoomModeGame && 'hidden'}`} socket={socket} username={username} room={uuid} />
-        <Game className={`${!isRoomModeGame && 'hidden'}`} socket={socket} username={username} room={room} photoURL={state.user.photoURL}/>
+        <Game className={`${!isRoomModeGame && 'hidden'}`} socket={socket} username={username} roomOwner={roomDetails.creatorId} photoURL={state.user.photoURL}/>
       </div>
     </>
   );
