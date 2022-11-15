@@ -1,12 +1,21 @@
-import { useState, useContext } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
+import { SocketContext } from "../Context/SocketContext/socket";
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
 import Button from "./Button";
 
+import {initialGameObject, gameReducer} from './GameReducer';
+
 import './Game.css';
 
-export default function Game({socket, username, room, photoURL, className}) {
-  const [state, dispatch] = useContext(GlobalContext);
+export default function Game({username, room, photoURL, className}) {
+  const [state] = useContext(GlobalContext);
+  const socket = useContext(SocketContext);
+  const [gameState, dispatch] = useReducer(gameReducer, initialGameObject);
+
+  useEffect(() => {
+
+  }, []);
 
   return (
     <>

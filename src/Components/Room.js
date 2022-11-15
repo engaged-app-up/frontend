@@ -66,12 +66,29 @@ const Room = (props) => {
 
   useEffect(() => {
     getRoomDetails(uuid);
+
     socket.emit("join_room", uuid);
+
     socket.on("set_room_state", (data) => {
       setIsRoomModeGame(data);
     })
+
+    socket.on("get_active_users", (userList) => {
+      console.log(userList, "the user list");
+      setActiveUsers([...userList]);
+    });
+
+    socket.on('test_from_route', (data) => {
+      console.log(data);
+    })
+    
     return () => {
+      if (socket.userId == state.user.id) {
+        //if the host leaves the room, set the room state back to chat.
+        socket.emit('room_state_change', {room: uuid, isRoomModeGame: false})
+      }
       socket.emit("leave_room", uuid);
+      socket.removeAllListeners();
     };
   }, []);
 
