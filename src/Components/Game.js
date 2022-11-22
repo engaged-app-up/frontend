@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../Context/GlobalContext/GlobalContext";
 import { SocketContext } from "../Context/SocketContext/socket";
 import {
@@ -11,17 +11,87 @@ import { TbPlayerTrackNext } from 'react-icons/tb';
 import Button from "./Button";
 import GameHostControlButton from "./GameHostControlButton";
 
-import { initialGameObject, gameReducer } from './GameReducer';
+import { 
+  gameState, 
+  roundStats, 
+  reactions, 
+  startGame, 
+  filterPlayersForQueue, 
+  getQuestions, 
+  setQuestions, 
+  setCurrentQuestion
+} from "./GameUtil";
+
+import { getAuth } from "firebase/auth";
 
 import './Game.css';
 
-export default function Game({ username, roomOwner, photoURL, className }) {
+export default function Game({ roomOwner, className, room, roomUsers, activeUsers }) {
   const [state] = useContext(GlobalContext);
   const socket = useContext(SocketContext);
-  const [gameState, dispatch] = useReducer(gameReducer, initialGameObject);
+  const auth = getAuth();
+  const [game, setGame] = useState({});
+
+  const initializeGame = async () => {
+    let currentGameState = {...gameState};
+    let questions = await getQuestions(auth);
+    let players = await filterPlayersForQueue(roomUsers, activeUsers);
+    let selectedQuestion = questions.pop();
+    let selectedPlayer = players.pop();
+
+    currentGameState.gameInProgress = true;
+    currentGameState.questions = [...questions];
+    currentGameState.currentQuestion = selectedQuestion;
+    currentGameState.playerQueue = [...players];
+    currentGameState.selectedPlayer = selectedPlayer;
+
+    socket.emit('set_game_state', {room: room, gameState: {...currentGameState}});
+  }
+
+  const handleNextPlayer = () => {
+    if (game.playerQueue.length > 0) {
+      let updatedPlayerQueue = [...game.playerQueue];
+      let nextPlayer = updatedPlayerQueue.pop();
+      let gameState = {...game, selectedPlayer: nextPlayer, playerQueue: [...updatedPlayerQueue]}
+      socket.emit('next_player', {
+        room: room,
+        game: gameState
+      })
+    } else {
+      handleNextRound();
+    }
+  }
+
+  const handleNextRound = async () => {
+    const players = await filterPlayersForQueue(roomUsers, activeUsers);
+    const playerQueue = [...players];
+    const selectedPlayer = playerQueue.pop();
+    const questions = [...game.questions];
+    const selectedQuestion = questions.pop();
+    const gameState = {...game, playerQueue: playerQueue, selectedPlayer: selectedPlayer, questions: questions, currentQuestion: selectedQuestion};
+
+    socket.emit('next_round', {
+      room: room,
+      game: gameState,
+    })
+  }
+  
+  const handleStopGame = async () => {
+    const defaultGameState = {...gameState};
+    socket.emit('stop_game', {
+      room: room,
+      game: defaultGameState
+    })
+  }
 
   useEffect(() => {
+    socket.on('set_game_state', (data) => {
+      setGame(data);
+    })
 
+    return () => {
+
+    }
   }, []);
 
   return (
@@ -32,23 +102,23 @@ export default function Game({ username, roomOwner, photoURL, className }) {
             <div className="flex mt-6 justify-center ">
               <div className="flex flex-col justify-center items-center">
                 <h1 className="text-xl font-semibold text-gray-600 md:text-4xl text-center py-6"><span>🧊</span>Ice Breakers<span>🧊</span></h1>
-                {state.user.id == roomOwner && 
-                <div className="host-controls flex justify-center items-center w-1/4 text-2xl gap-2">
-                  <GameHostControlButton popoverText="Start Game">
-                    <RiPlayLine />
-                  </GameHostControlButton>
-                  <GameHostControlButton popoverText="Stop Game">
-                    <RiStopLine />
-                  </GameHostControlButton>
-                  <GameHostControlButton popoverText="Next Player">
-                    <TbPlayerTrackNext />
-                  </GameHostControlButton>
-                </div>}
-                <h2 className="text-xl font-semibold text-gray-600 md:text-3xl text-center py-6">A really interesting question?</h2>
+                {state.user.id == roomOwner &&
+                  <div className="host-controls flex justify-center items-center w-1/4 text-2xl gap-2">
+                    <GameHostControlButton popoverText="Start Game" onClick={initializeGame}>
+                      <RiPlayLine />
+                    </GameHostControlButton>
+                    <GameHostControlButton popoverText="Stop Game" onClick={handleStopGame}>
+                      <RiStopLine />
+                    </GameHostControlButton>
+                    <GameHostControlButton popoverText="Next Player" onClick={handleNextPlayer}>
+                      <TbPlayerTrackNext />
+                    </GameHostControlButton>
+                  </div>}
+                {game.gameInProgress && <h2 className="text-xl font-semibold text-gray-600 md:text-3xl text-center py-6">{game ? game.currentQuestion : 'Game not started..'}</h2>}
                 <div className="selected-user flex flex-col">
                   <div className="selected-user-header flex gap-2 justify-center items-center">
                     <span className="inline-block text-2xl">🎉</span>
-                    <h3 className="text-xl font-semibold text-gray-600 md:text-2xl text-center py-6">Selected Username</h3>
+                    <h3 className="text-xl font-semibold text-gray-600 md:text-2xl text-center py-6">{game.selectedPlayer && game.selectedPlayer.displayName}</h3>
                     <span className="inline-block text-2xl">🎉</span>
                   </div>
                   <div className="selected-avatar m-auto">

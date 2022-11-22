@@ -1,17 +1,26 @@
 export const initialGameObject = {
-    gameInprogress: false,
+    gameInProgress: false,
+    questions: [],
+    currentQuestion: null,
     playerQueue: [],
-    roundStats: []
+    roundStats: [],
+    selectedUser: null
 }
 
 export const gameReducer = (state, action) => {
     switch (action.type) {
         case "START_GAME": 
-            return {...state, gameInprogress: action.payload.gameInProgress};
-        case "ADD_PLAYERS_TO_QUEUE":
+            return {...state, gameInProgress: action.payload.gameInProgress};
+        case "SET_QUESTIONS":
+            return {...state, questions: action.payload.questions}
+        case "SET_QUESTION": 
+            return {...state, currentQuestion: action.payload.currentQuestion, questions: action.payload.questions};
+        case "SET_PLAYER_QUEUE":
             return {...state, playerQueue: action.payload.players};
         case "ADD_ROUND_STATS":
-            return {...state, roundState: action.payload.roundStats};
+            return {...state, roundStats: action.payload.roundStats};
+        case "SET_SELECTED_USER":
+            return {...state, selectedUser: action.payload.user};
 
         default:
             return state;
@@ -20,7 +29,7 @@ export const gameReducer = (state, action) => {
 
 /* 
 roundStats Object example.
-{
+{   
     question: 'Sample Question',
     reactions: [
             {
@@ -31,6 +40,5 @@ roundStats Object example.
         }
     ]
 }
-
 
 */

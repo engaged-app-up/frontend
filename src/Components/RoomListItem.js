@@ -34,11 +34,13 @@ const RoomListItem = props => {
     const roomEnterHandler = async (e) => {
         e.preventDefault();
         await socket.emit('set_user_id', state.user.id);
-        navigate(`/room/${props.uuid}`, {state: {
-            name: props.roomName,
-            description: props.roomDescription,
-            uuid: props.uuid
-        }});
+        navigate(`/room/${props.uuid}`, {
+            state: {
+                name: props.roomName,
+                description: props.roomDescription,
+                uuid: props.uuid
+            }
+        });
     }
 
     useEffect(() => {
@@ -46,13 +48,17 @@ const RoomListItem = props => {
         socket.on('room_set_active', async (data) => {
             if (data.room == props.uuid && data.count > 0) {
                 setIsRoomActive(true);
-            } 
+            }
         })
         socket.on('room_set_inactive', async (data) => {
             if (data == props.uuid) {
                 setIsRoomActive(false);
             }
         })
+
+        return () => {
+            socket.removeAllListeners();
+        }
     }, []);
 
     return <li className="room-list-item rounded py-4 px-4">

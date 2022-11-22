@@ -29,31 +29,8 @@ const Room = (props) => {
   const uuid = useParams().uuid; //uuid of room.
   const username = state.user.displayName;
   const navigate = useNavigate();
-  let room;
 
   const [showHostModal, setShowHostModal] = useState(false); //
-
-  const getRoomDetails = async (uuid) => {
-    let room;
-    setIsLoading(true);
-    let response = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/api/rooms/${uuid}`,
-      {
-        headers: {
-          Authorization: `Bearer ${await auth.currentUser.getIdToken(true)}`,
-        },
-      }
-    );
-
-    if (response.ok) {
-      room = await response.json();
-      room.members = [room.creator, ...room.members];
-      setRoomDetails(room);
-      console.log(room);
-    }
-    setIsLoading(false);
-    console.log(response);
-  };
 
   const hostMenuHandler = (e) => {
     e.preventDefault();
@@ -63,8 +40,29 @@ const Room = (props) => {
   }
 
   useEffect(() => {
-    getRoomDetails(uuid);
+    const getRoomDetails = async (uuid) => {
+      let room;
+      setIsLoading(true);
+      let response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/rooms/${uuid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${await auth.currentUser.getIdToken(true)}`,
+          },
+        }
+      );
+  
+      if (response.ok) {
+        room = await response.json();
+        room.members = [room.creator, ...room.members];
+        setRoomDetails(room);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    };
 
+    getRoomDetails(uuid);
     socket.emit("join_room", uuid);
 
     socket.on("set_room_state", (data) => {
@@ -72,30 +70,17 @@ const Room = (props) => {
     })
 
     socket.on("get_active_users", (userList) => {
-      console.log(userList, "the user list");
       setActiveUsers([...userList]);
     });
 
     socket.on('test_from_route', (data) => {
       console.log(data);
     })
-    
+
     return () => {
-      if (socket.userId == state.user.id) {
-        //if the host leaves the room, set the room state back to chat.
-        socket.emit('room_state_change', {room: uuid, isRoomModeGame: false})
-      }
-      socket.emit("leave_room", uuid);
       socket.removeAllListeners();
     };
   }, []);
-
-  useEffect(() => {
-    socket.on("get_active_users", (userList) => {
-      console.log(userList, "the user list");
-      setActiveUsers([...userList]);
-    });
-  }, [socket]);
 
   if (isLoading) {
     return <h1>LOADING</h1>;
@@ -125,8 +110,9 @@ const Room = (props) => {
         <div className=" -mx-6 pt-4 flex justify-between items-center border-t">
           <button
             className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group"
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
+              await socket.emit('leave_room', {room: uuid, isHost: roomDetails.creatorId == socket.userId});
               navigate("/dashboard");
             }}
           >
@@ -141,7 +127,7 @@ const Room = (props) => {
       </aside>
       <div className="ml-auto lg:w-[75%] xl:w-[80%] 2xl:w-[85%] h-screen px-4">
         <Chat className={`${isRoomModeGame && 'hidden'}`} socket={socket} username={username} room={uuid} />
-        <Game className={`${!isRoomModeGame && 'hidden'}`} socket={socket} username={username} roomOwner={roomDetails.creatorId} photoURL={state.user.photoURL}/>
+        <Game className={`${!isRoomModeGame && 'hidden'}`} socket={socket} username={username} room={uuid} roomOwner={roomDetails.creatorId} photoURL={state.user.photoURL} roomUsers={roomDetails.members} activeUsers={activeUsers}/>
       </div>
     </>
   );
