@@ -34,7 +34,7 @@ export default function Login(props) {
       // register user
       try {
         const user = {email: userInput.email, password: userInput.password, displayName: `${userInput.firstName} ${userInput.lastName}`};
-        const response = await fetch('http://localhost:3001/api/users/auth', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/auth`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

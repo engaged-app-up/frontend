@@ -30,24 +30,23 @@ export default function Chat({ socket, username, room, className }) {
   return (
     <>
       <div className={`flex justify-center w-full h-full text-gray-800 ${className}`}>
-        <div className="flex flex-col flex-grow ml-6 bg-white shadow-xl rounded-lg ">
+        <div className="flex flex-col flex-grow ml-6 bg-white shadow-xl rounded-lg">
           <div className="flex flex-col flex-grow p-4 overflow-auto">
-            <div className="flex mt-2 space-x-3 ">
-              <div className="flex-shrink-0 h-10 w-10 "></div>
-              <div>
-                {messageList.map((messageContent) => {
-                  return (
-                    <div>
-                      <div className="message-content">
-                        <p className="bg-gray-100">{messageContent.message}</p>
-                      </div>
-
-                      <p id="time">{messageContent.time}</p>
+            <div className="flex-shrink-0 h-10 w-10"></div>
+            <div>
+              {messageList.map((messageContent) => {
+                return (
+                  <div className="flex gap-3 flex-col mt-3">
+                    <div className="flex gap-3">
                       <p id="author">{messageContent.author}</p>
+                      <p id="time">{messageContent.time}</p>
                     </div>
-                  );
-                })}
-              </div>
+                    <div className="message-content">
+                      <p className="bg-gray-100">{messageContent.message}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="flex w-full mt-2 space-x-3 max-w-xs"></div>

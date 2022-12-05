@@ -77,6 +77,8 @@ const Room = (props) => {
       console.log(data);
     })
 
+    socket.emit("get_room_state", {room: uuid});
+
     return () => {
       socket.removeAllListeners();
     };
