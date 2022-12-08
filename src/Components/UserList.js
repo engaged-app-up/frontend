@@ -70,7 +70,7 @@ export default function UserList({
             {inactiveUsers && inactiveUsers.length}
           </span>
         </div>
-        <ul className="flex flex-col space-y-1 mt-4 -mx-2 h-auto overflow-y-auto">
+        <ul className="inactive-users flex flex-col space-y-1 mt-4 -mx-2 overflow-y-auto">
           {inactiveUsers &&
             inactiveUsers
               .filter((user) => user.displayName !== username)

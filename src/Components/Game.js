@@ -93,7 +93,6 @@ export default function Game({ roomOwner, className, room, roomUsers, activeUser
 
     }
   }, []);
-
   return (
     <>
       <div className={`${className} flex justify-center w-full h-full text-gray-800`}>
@@ -127,17 +126,11 @@ export default function Game({ roomOwner, className, room, roomUsers, activeUser
                 </div>
               </div>
             </div>
-            <div className="reactions mx-auto flex justify-between items-center mt-16">
-              <div className="w-1/4">
-                <RiArrowLeftSLine className="text-2xl" />
-              </div>
-              <div className="reaction-buttons w-2/4 flex justify-between">
+            <div className="reactions mx-auto flex justify-center items-center mt-16">
+              <div className="reaction-buttons max-w-2/4 flex justify-between gap-2">
                 <Button><span className="text-2xl mr-2">🤣</span> Funny</Button>
                 <Button><span className="text-2xl mr-2">💡</span> Interesting</Button>
                 <Button><span className="text-2xl mr-2">🤯</span> Woah!</Button>
-              </div>
-              <div className="w-1/4">
-                <RiArrowRightSLine className="ml-auto text-2xl" />
               </div>
             </div>
           </div>

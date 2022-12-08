@@ -10,6 +10,7 @@ import Modal from "./Modal";
 import CreateRoomForm from "./CreateRoomForm";
 import JoinRoomForm from "./JoinRoomForm";
 import logo from "../assets/img/engaged.svg";
+import Toast from "./Toast";
 
 import './DashBoard.css'
 const DashBoard = props => {
@@ -25,6 +26,7 @@ const DashBoard = props => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({}); //what we want to display in the modal component
   const [modalError, setModalError] = useState('');
+  const [showToast, setShowToast] = useState(false);
 
   const closeModal = () => {
     setShowModal(false);
@@ -133,6 +135,13 @@ const DashBoard = props => {
     }
   }
 
+  const handleInvite = async () => {
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 2000);
+  }
+
   useEffect(() => {
     console.log('useEffect to get userRooms');
     setUserRooms(getUsersRooms());
@@ -140,6 +149,9 @@ const DashBoard = props => {
 
   return (
     <>
+    <Toast className="rounded" show={showToast}>
+      Invite Link Copied!
+    </Toast>
       <Modal className="w-11/12 md:w-5/12" closeModal={closeModal} show={showModal} modalError={modalError} setModalError={setModalError} handleCreateRoom={handleCreateRoom}>
         {modalContent.createRoom && <CreateRoomForm closeModal={closeModal} handleCreateRoom={handleCreateRoom} />}
         {modalContent.joinRoom && <JoinRoomForm closeModal={closeModal} error={modalError} setModalError={setModalError} handleJoinRoom={handleJoinRoom} />}
@@ -198,6 +210,7 @@ const DashBoard = props => {
                       roomMemberCount={room.memberIds.length}
                       roomCreatorId={room.creatorId}
                       uuid={room.uuid}
+                      inviteToasthandler={handleInvite}
                     />) : 'No rooms.'}
                 </ul>
               </div>

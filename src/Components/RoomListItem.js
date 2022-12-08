@@ -29,6 +29,7 @@ const RoomListItem = props => {
 
     const getRoomShareCode = () => {
         navigator.clipboard.writeText(props.uuid);
+        props.inviteToasthandler();
     }
 
     const roomEnterHandler = async (e) => {
