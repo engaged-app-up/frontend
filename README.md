@@ -5,6 +5,8 @@ Engaged - Umbrella Project for Develop Carolina apprenticeship.
 [itrytocodethings](https://github.com/itrytocodethings) / [
 ShaunR23](https://github.com/ShaunR23)
 
+[Backend](https://github.com/engaged-app-up/backend)
+
 # MVP
  - Room based application.
  - Create/Join/Share rooms with others.
