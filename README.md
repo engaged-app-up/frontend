@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# Engaged App - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Engaged - Umbrella Project for Develop Carolina apprenticeship.
 
-## Available Scripts
+[itrytocodethings](https://github.com/itrytocodethings) / [
+ShaunR23](https://github.com/ShaunR23)
 
-In the project directory, you can run:
+# MVP
+ - Room based application.
+ - Create/Join/Share rooms with others.
+ - "Icebreakers" gamemode as example for MVP Demo.
+ - Room host/creator can change room state from default lobby (chat) to icebreakers gamemode.
+ - Real time interactions - Socket.IO
 
-### `npm start`
+ # Icebreakers example gamemode.
+ The idea was to have a small game to play when on a remote teams/zoom call. When the host starts an icebreakers game, the application determines all **active** users in the room and excludes users that are *members* of the room but are offline. The host controls when to move on to the next user. If all users have been selected for a particular question, a new question gets pulled and will continue to iterate over the active users. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+ # Tech Stack
+ - MondoDB
+ - Express/Node (Backend)
+ - React
+ - Socket.IO
+ - Prisma
+ - Firebase Auth.
+ - Docker (Backend)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+ # Screenshots 
+ ## Creating Rooms
+ ![create room](./screenshots/create_room.gif)
 
-### `npm test`
+ ## Room Invite
+ ![room invite](./screenshots/room_invite.gif)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+ ## Active/Inactive room idicators on room cards.
+ ![active room](./screenshots/active_room.gif)
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ ## Host Starting Icebreakers
+ ![icebreakers game start](./screenshots/starting_game_as_host.gif)
